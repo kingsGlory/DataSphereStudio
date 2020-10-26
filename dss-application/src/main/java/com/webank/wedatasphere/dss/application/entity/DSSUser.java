@@ -25,6 +25,8 @@ public class DSSUser {
     private String username;
     private String name;
     private Boolean isFirstLogin;
+    private Integer status;
+    private String ctyunUserId;
 
     public Long getId() {
         return id;
@@ -56,5 +58,21 @@ public class DSSUser {
 
     public void setFirstLogin(Boolean firstLogin) {
         isFirstLogin = firstLogin;
+    }
+
+    public Integer getStatus() {
+        return status;
+    }
+
+    public void setStatus(Integer status) {
+        this.status = status;
+    }
+
+    public String getCtyunUserId() {
+        return ctyunUserId;
+    }
+
+    public void setCtyunUserId(String ctyunUserId) {
+        this.ctyunUserId = ctyunUserId;
     }
 }

@@ -31,16 +31,23 @@ export default {
           id: 'FAQ',
           name: this.$t('message.navMune.FAQ'),
           icon: 'ios-help-circle-outline',
-        }, {
+        },
+        {
+          id: 'workOrder',
+          name: this.$t('message.navMune.workOrder'),
+          icon: 'ios-paper-outline',
+        },
+        {
           id: 'clearCache',
           name: this.$t('message.navMune.clearCache'),
           icon: 'ios-trash-outline',
         },
+        // {
+        //   id: 'changeLang',
+        //   name: localStorage.getItem('locale') === 'zh-CN' ? 'English' : '简体中文',
+        //   icon: 'md-repeat',
+        // }, 
         {
-          id: 'changeLang',
-          name: localStorage.getItem('locale') === 'zh-CN' ? 'English' : '简体中文',
-          icon: 'md-repeat',
-        }, {
           id: 'logout',
           name: this.$t('message.navMune.logOut'),
           icon: 'ios-log-out',
@@ -58,6 +65,9 @@ export default {
           break;
         case 'clearCache':
           this.clearCache();
+          break;
+        case 'workOrder':
+          this.gotoWorkOrder();
           break;
         case 'logout':
           this.getRunningJob();
@@ -112,6 +122,9 @@ export default {
         this.$emit('clear-session');
         this.$router.push({ path: '/login' });
       });
+    },
+    gotoWorkOrder() {
+      this.$router.push('/workOrder');
     },
     changeLang() {
       // 中文切换英文
