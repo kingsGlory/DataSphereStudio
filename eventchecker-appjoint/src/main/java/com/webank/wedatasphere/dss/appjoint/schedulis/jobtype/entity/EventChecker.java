@@ -183,24 +183,24 @@ public class EventChecker implements Runnable{
 //		throw new RuntimeException("Kill this eventchecker.");
 	}
 
-	private boolean checkParamMap(Properties p, String key){
+	private boolean checkParamMap(Properties p, String value){
 	    boolean checkFlag = false;
-	    if(!p.containsKey(key)){
-	        throw new RuntimeException("parameter " + key + " is Empty.");
+	    if(!p.containsKey(value)){
+	        throw new RuntimeException("parameter " + value + " is Empty.");
 	    }
-	    if(p.containsKey(key)){
-		    if(StringUtils.isEmpty(p.getProperty(key))){
+	    if(p.containsKey(value)){
+		    if(StringUtils.isEmpty(p.getProperty(value))){
 	        checkFlag = true;
 	      }
 	    }
-	    if(!MSG.equals(key) && StringUtils.contains(p.getProperty(key), " ")){
-			throw new RuntimeException("parameter " + key + " can not contains space !");
+	    if(!MSG.equals(value) && StringUtils.contains(p.getProperty(value), " ")){
+			throw new RuntimeException("parameter " + value + " can not contains space !");
 		}
-	    if(!checkNoStandardStr(p.getProperty(key))){
-	    	throw new RuntimeException("parameter " + key + " Accept letter and number and _@- only.");
+	    if(!checkNoStandardStr(p.getProperty(value))){
+	    	throw new RuntimeException("parameter " + value + " Accept letter and number and _@- only.");
 	    }
-	    if(p.getProperty(key).length() > 45){
-	    	throw new RuntimeException("parameter " + key + " length less than 45 !");
+	    if(p.getProperty(value).length() > 45){
+	    	throw new RuntimeException("parameter " + value + " length less than 45 !");
 	    }
 	    return checkFlag;
     }

@@ -57,7 +57,9 @@ public class LinkisAzkabanFlowPublishHook extends AbstractFlowPublishHook {
             LOGGER.error("write FlowResources to local failed,reason:",e);
             throw new DSSErrorException(90006,e.getMessage());
         }finally {
-            IOUtils.closeQuietly(os);
+            if (os != null) {
+                IOUtils.closeQuietly(os);
+            }
         }
     }
 
@@ -87,14 +89,16 @@ public class LinkisAzkabanFlowPublishHook extends AbstractFlowPublishHook {
             os = FileUtils.openOutputStream(flowPrpsFile,true);
             StringBuilder stringBuilder = new StringBuilder();
             flowProperties.forEach(p ->p.forEach((k,v)->{
-                stringBuilder.append(AzkabanConstant.LINKIS_FLOW_VARIABLE_KEY + k + "=" + v + "\n");
+                stringBuilder.append(AzkabanConstant.LINKIS_FLOW_VARIABLE + k + "=" + v + "\n");
             }));
             os.write(stringBuilder.toString().getBytes());
         }catch (Exception e){
             LOGGER.error("write flowProperties to local faailed,reason:",e);
             throw new DSSErrorException(90007,e.getMessage());
         }finally {
-            IOUtils.closeQuietly(os);
+            if (os != null) {
+                IOUtils.closeQuietly(os);
+            }
         }
     }
 

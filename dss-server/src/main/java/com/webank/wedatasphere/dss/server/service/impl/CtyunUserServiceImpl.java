@@ -1,5 +1,7 @@
 package com.webank.wedatasphere.dss.server.service.impl;
 
+import java.security.NoSuchAlgorithmException;
+import java.security.SecureRandom;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collections;
@@ -125,12 +127,15 @@ public class CtyunUserServiceImpl implements CtyunUserService {
         Collections.shuffle(index);
 
         StringBuffer password = new StringBuffer();
-        Random r = new Random();
-        for (int i = 0; i < index.size(); i++) {
-            String charSet = charSetList.get(index.get(i));
-            password.append(charSet.charAt(r.nextInt(charSet.length())));
+        try {
+            SecureRandom r = SecureRandom.getInstance("SHA1PRNG");
+            for (int i = 0; i < index.size(); i++) {
+                String charSet = charSetList.get(index.get(i));
+                password.append(charSet.charAt(r.nextInt(charSet.length())));
+            }
+        } catch (NoSuchAlgorithmException e) {
+            e.printStackTrace();
         }
-
         return password.toString();
     }
 

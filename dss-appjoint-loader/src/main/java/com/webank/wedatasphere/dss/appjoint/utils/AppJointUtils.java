@@ -20,6 +20,7 @@ package com.webank.wedatasphere.dss.appjoint.utils;
 import com.webank.wedatasphere.dss.appjoint.AppJoint;
 import com.webank.wedatasphere.dss.appjoint.exception.NoSuchAppJointException;
 import com.webank.wedatasphere.dss.appjoint.loader.AppJointLoader;
+import com.webank.wedatasphere.dss.common.utils.FileHelper;
 import com.webank.wedatasphere.linkis.common.exception.ErrorException;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -55,58 +56,68 @@ public class AppJointUtils {
      */
 
     public static String getAppJointClassName(String appJointName, String libPath, ClassLoader classLoader)throws NoSuchAppJointException {
-        //1.获取目录下面所有的jar包
-        List<String> jars = getJarsOfPath(libPath);
-        //2.从所有的jar中获取到AppJoint的子类
-        boolean flag = false;
         String appjoint = null;
-        for (String jar : jars){
-            for(String clazzName : getClassNameFrom(jar)){
-                if (isChildClass(clazzName, PARENT_CLASS, classLoader)){
-                    flag = true;
-                    appjoint = clazzName;
+        //1.获取目录下面所有的jar包
+        libPath = FileHelper.filenameFilter(libPath);
+            List<String> jars = getJarsOfPath("");
+            //2.从所有的jar中获取到AppJoint的子类
+            boolean flag = false;
+
+            for (String jar : jars) {
+                for (String clazzName : getClassNameFrom(jar)) {
+                    if (isChildClass(clazzName, PARENT_CLASS, classLoader)) {
+                        flag = true;
+                        appjoint = clazzName;
+                        break;
+                    }
+                }
+                if (flag) {
                     break;
                 }
             }
-            if (flag){
-                break;
+            if (appjoint != null && StringUtils.isEmpty(appjoint)) {
+                throw new NoSuchAppJointException(appJointName + " does not exist");
             }
-        }
-        if (StringUtils.isEmpty(appjoint)){
-            throw new NoSuchAppJointException(appJointName + " does not exist");
-        }
+
         return appjoint;
     }
 
 
     public static List<String> getJarsOfPath(String path){
-        File file = new File(path);
         List<String> jars = new ArrayList<>();
-        if (file.listFiles() != null){
-            for(File f : file.listFiles()){
-                if (!f.isDirectory() && f.getName().endsWith(AppJointLoader.JAR_SUF_NAME) && f.getName().startsWith("dss")){
-                    jars.add(f.getPath());
+        path = FileHelper.filenameFilter(path);
+
+            File file = new File("");
+            if (file.listFiles() != null) {
+                for (File f : file.listFiles()) {
+                    if (!f.isDirectory() && f.getName().endsWith(AppJointLoader.JAR_SUF_NAME) && f.getName().startsWith("dss")) {
+                        jars.add(f.getPath());
+                    }
                 }
             }
-        }
+
         return jars;
     }
 
 
     public static List<URL> getJarsUrlsOfPath(String path){
-        File file = new File(path);
         List<URL> jars = new ArrayList<>();
-        if (file.listFiles() != null){
-            for(File f : file.listFiles()){
-                if (!f.isDirectory() && f.getName().endsWith(AppJointLoader.JAR_SUF_NAME)){
-                    try {
-                        jars.add(f.toURI().toURL());
-                    } catch (MalformedURLException e) {
-                       logger.warn("url {} cannot be added", AppJointLoader.FILE_SCHEMA + f.getPath());
+        path = FileHelper.filenameFilter(path);
+
+            File file = new File("");
+
+            if (file.listFiles() != null) {
+                for (File f : file.listFiles()) {
+                    if (!f.isDirectory() && f.getName().endsWith(AppJointLoader.JAR_SUF_NAME)) {
+                        try {
+                            jars.add(f.toURI().toURL());
+                        } catch (MalformedURLException e) {
+                            logger.warn("url {} cannot be added", AppJointLoader.FILE_SCHEMA + f.getPath());
+                        }
                     }
                 }
             }
-        }
+
         return jars;
     }
 
@@ -116,20 +127,32 @@ public class AppJointUtils {
      */
     private static List<String> getClassNameFrom(String jarName) {
         List<String> fileList = new ArrayList<String>();
+        JarFile jarFile = null;
         try {
-            JarFile jarFile = new JarFile(new File(jarName));
-            Enumeration<JarEntry> en = jarFile.entries();
-            while (en.hasMoreElements()) {
-                String name1 = en.nextElement().getName();
-                if (!name1.endsWith(".class")) {
-                    continue;
+            jarName = FileHelper.filenameFilter(jarName);
+
+                jarFile = new JarFile(new File(""));
+                Enumeration<JarEntry> en = jarFile.entries();
+                while (en.hasMoreElements()) {
+                    String name1 = en.nextElement().getName();
+                    if (!name1.endsWith(".class")) {
+                        continue;
+                    }
+                    String name2 = name1.substring(0, name1.lastIndexOf(".class"));
+                    String name3 = name2.replaceAll("/", ".");
+                    fileList.add(name3);
                 }
-                String name2 = name1.substring(0, name1.lastIndexOf(".class"));
-                String name3 = name2.replaceAll("/", ".");
-                fileList.add(name3);
-            }
+
         } catch (IOException e) {
             e.printStackTrace();
+        } finally {
+            if (jarFile != null) {
+                try {
+                    jarFile.close();
+                } catch (Exception e) {
+
+                }
+            }
         }
 
         return fileList;

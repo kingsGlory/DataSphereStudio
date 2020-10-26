@@ -62,7 +62,7 @@ public class LinkisJobConverter {
         HashMap<String, String> map = new HashMap<>();
         map.put(AzkabanConstant.JOB_TYPE,job.getType());
         map.put(AzkabanConstant.LINKIS_TYPE,job.getLinkistype());
-        map.put(AzkabanConstant.ZAKABAN_DEPENDENCIES_KEY,job.getDependencies());
+        map.put(AzkabanConstant.ZAKABAN_DEPENDENCIES,job.getDependencies());
         map.put(SchedulerAppJointConstant.PROXY_USER,job.getProxyUser());
         map.put(AzkabanConstant.JOB_COMMAND,job.getCommand());
         map.putAll(job.getConf());

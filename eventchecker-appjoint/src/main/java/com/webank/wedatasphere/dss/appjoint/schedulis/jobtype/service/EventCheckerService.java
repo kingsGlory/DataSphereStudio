@@ -29,7 +29,7 @@ import java.util.Properties;
  * @Description: TODO
  */
 public class EventCheckerService {
-    private static EventCheckerService instance;
+    private volatile static EventCheckerService instance;
 
     public static EventCheckerService getInstance() {
         if (instance == null) {

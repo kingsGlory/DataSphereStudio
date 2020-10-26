@@ -92,7 +92,9 @@ public class LinkisAzkabanProjectPublishHook extends AbstractProjectPublishHook 
             LOGGER.error("write projectResources to local failed,reason:",e);
            throw new DSSErrorException(90015,e.getMessage());
         }finally {
-            IOUtils.closeQuietly(os);
+            if (os != null) {
+                IOUtils.closeQuietly(os);
+            }
         }
     }
 

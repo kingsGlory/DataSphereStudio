@@ -49,7 +49,9 @@ public class LinkisAzkabanNodePublishHook extends AbstractNodePublishHook {
             LOGGER.error("write AppJointNode to jobLocal failed,reason:",e);
             throw new DSSErrorException(90017,e.getMessage());
         }finally {
-            IOUtils.closeQuietly(os);
+            if (os != null) {
+                IOUtils.closeQuietly(os);
+            }
         }
     }
 
@@ -65,7 +67,7 @@ public class LinkisAzkabanNodePublishHook extends AbstractNodePublishHook {
         try {
             String storePath = ((AzkabanSchedulerNode)schedulerNode).getStorePath();
             File jobFile = new File(storePath,schedulerNode.getName() + AzkabanConstant.AZKABAN_JOB_SUFFIX);
-            String nodeResourceString = AzkabanConstant.LINKIS_JOB_RESOURCES_KEY + new Gson().toJson(nodeResources);
+            String nodeResourceString = AzkabanConstant.LINKIS_JOB_RESOURCES + new Gson().toJson(nodeResources);
             os = FileUtils.openOutputStream(jobFile,true);
             os.write(nodeResourceString.getBytes());
         }catch (Exception e){

@@ -24,12 +24,13 @@ import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import com.webank.wedatasphere.dss.common.utils.FileHelper;
 import java.io.BufferedReader;
 import java.io.File;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.regex.Pattern;
 
 /**
  * created by enjoyyin on 2019/6/13
@@ -59,13 +60,16 @@ public class ZipHelper {
         List<String> list = new ArrayList<>();
         list.add(ZIP_CMD);
         list.add(RECURSIVE);
+
         String zipFilePath = shortPath + ZIP_TYPE;
         String longZipFilePath = dirPath + ZIP_TYPE;
-        list.add(zipFilePath);
-        list.add(shortPath);
+//        list.add(zipFilePath);
+//        list.add(shortPath);
+
         ProcessBuilder processBuilder = new ProcessBuilder(list);
         processBuilder.redirectErrorStream(true);
-        processBuilder.directory(new File(workPath));
+
+
         BufferedReader infoReader = null;
         BufferedReader errorReader = null;
         try{
@@ -95,16 +99,24 @@ public class ZipHelper {
             throw exception;
         } finally {
             //删掉整个目录
-            File file = new File(dirPath);
-            logger.info("开始删除目录 {}", dirPath);
-            if (deleteDir(file)){
-                logger.info("结束删除目录 {} 成功", dirPath);
-            }else{
-                logger.info("删除目录 {} 失败", dirPath);
+            dirPath = FileHelper.filenameFilter(dirPath);
+
+                File file = new File("");
+
+                logger.info("开始删除目录 {}", dirPath);
+                if (deleteDir(file)) {
+                    logger.info("结束删除目录 {} 成功", dirPath);
+                } else {
+                    logger.info("删除目录 {} 失败", dirPath);
+                }
+                if (infoReader != null) {
+                    IOUtils.closeQuietly(infoReader);
+                }
+                if (errorReader != null) {
+                    IOUtils.closeQuietly(errorReader);
+                }
             }
-            IOUtils.closeQuietly(infoReader);
-            IOUtils.closeQuietly(errorReader);
-        }
+
         return longZipFilePath;
     }
 

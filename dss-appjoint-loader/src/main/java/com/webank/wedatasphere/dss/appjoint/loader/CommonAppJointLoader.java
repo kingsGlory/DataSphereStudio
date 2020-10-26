@@ -21,6 +21,7 @@ import com.webank.wedatasphere.dss.appjoint.AppJoint;
 import com.webank.wedatasphere.dss.appjoint.clazzloader.AppJointClassLoader;
 import com.webank.wedatasphere.dss.appjoint.utils.AppJointUtils;
 import com.webank.wedatasphere.dss.appjoint.utils.ExceptionHelper;
+import com.webank.wedatasphere.dss.common.utils.FileHelper;
 import com.webank.wedatasphere.linkis.common.exception.ErrorException;
 import org.apache.commons.lang.StringUtils;
 import org.slf4j.Logger;
@@ -92,17 +93,8 @@ public class CommonAppJointLoader implements AppJointLoader{
                 File.separator + AppJointLoader.LIB_NAME;
         String propertiesUrlStr = basePathUrlStr + File.separator + appJointName +
                 File.separator + AppJointLoader.PROPERTIES_NAME;
-        try{
-            params.putAll(readFromProperties(propertiesUrlStr));
-        }catch(IOException e){
-            logger.warn("cannot get properties from {}", propertiesUrlStr, e);
-        }
-        URL finalURL = null;
-        try {
-            finalURL = new URL(AppJointLoader.FILE_SCHEMA + libPathUrlStr + "/*");
-        } catch (MalformedURLException e) {
-            ExceptionHelper.dealErrorException(70061, libPathUrlStr + " url is wrong", e);
-        }
+        params.putAll(readFromProperties(propertiesUrlStr));
+
         List<URL> jars = AppJointUtils.getJarsUrlsOfPath(libPathUrlStr);
         if (newClassLoader == null){
             newClassLoader = new AppJointClassLoader(jars.toArray(new URL[100]) ,oldClassLoader);
@@ -136,11 +128,35 @@ public class CommonAppJointLoader implements AppJointLoader{
         }
     }
 
-    private Map<String, String> readFromProperties(String propertiesFile) throws IOException {
+    private Map<String, String> readFromProperties(String propertiesFile) {
         Properties properties = new Properties();
-        BufferedReader reader = new BufferedReader(new FileReader(propertiesFile));
-        properties.load(reader);
-        Map<String, String> map = new HashMap<String, String>((Map)properties);
+        BufferedReader reader = null;
+        FileReader fileReader = null;
+        Map<String, String> map = null;
+        try {
+            propertiesFile = FileHelper.filenameFilter(propertiesFile);
+            fileReader = new FileReader("");
+            reader = new BufferedReader(fileReader);
+            properties.load(reader);
+            map = new HashMap<String, String>((Map) properties);
+        } catch (Exception e) {
+
+        } finally {
+            if (fileReader != null) {
+                try {
+                    fileReader.close();
+                } catch (Exception e) {
+
+                }
+            }
+            if (reader != null) {
+                try {
+                    reader.close();
+                } catch (Exception e) {
+
+                }
+            }
+        }
         return map;
     }
 

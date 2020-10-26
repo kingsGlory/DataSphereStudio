@@ -33,7 +33,7 @@ import java.util.Properties;
  * @Description: TODO
  */
 public class EventDruidFactory {
-	private static DruidDataSource msgInstance;
+	private volatile static DruidDataSource msgInstance;
 
 	public static DruidDataSource getMsgInstance(Properties props, Logger log) {
 		if (msgInstance == null ) {
@@ -84,14 +84,19 @@ public class EventDruidFactory {
 		
 		DruidDataSource ds = new DruidDataSource();
 		
-		if (StringUtils.isNotBlank(name)) {
+		if (name != null && StringUtils.isNotBlank(name)) {
 			ds.setName(name);
 		}
-		
-		ds.setUrl(url);
+		if (url != null) {
+			ds.setUrl(url);
+		}
 		ds.setDriverClassName("com.mysql.jdbc.Driver");
-	    ds.setUsername(username);
-	    ds.setPassword(password);
+		if (username != null) {
+			ds.setUsername(username);
+		}
+		if (password != null) {
+			ds.setPassword(password);
+		}
 	    ds.setInitialSize(initialSize);
 	    ds.setMinIdle(minIdle);
 	    ds.setMaxActive(maxActive);

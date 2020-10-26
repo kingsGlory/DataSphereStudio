@@ -27,6 +27,7 @@ import java.text.DateFormat;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Locale;
 import java.util.Properties;
 
 /**
@@ -68,7 +69,7 @@ public class DefaultEventcheckReceiver extends AbstractEventCheckReceiver {
                     result = updateMsgOffset(jobId,props,log,consumedMsgInfo,lastMsgId);
                 }
             }else{
-                log.error("executeType error {} " + executeType.toString());
+//                log.error("executeType error {} " + executeType.toString());
                 return result;
             }
         }catch (Exception e){
@@ -79,8 +80,8 @@ public class DefaultEventcheckReceiver extends AbstractEventCheckReceiver {
     }
 
     private String[] createExecuteType(int jobId, Properties props, Logger log,String lastMsgId){
-        boolean receiveTodayFlag = (null != receiveToday && "true".equals(receiveToday.trim().toLowerCase()));
-        boolean afterSendFlag = (null != afterSend && "true".equals(afterSend.trim().toLowerCase()));
+        boolean receiveTodayFlag = (null != receiveToday && "true".equals(receiveToday.trim().toLowerCase(Locale.ENGLISH)));
+        boolean afterSendFlag = (null != afterSend && "true".equals(afterSend.trim().toLowerCase(Locale.ENGLISH)));
         String[] executeType = null;
         try {
             if ("0".equals(lastMsgId)){
@@ -129,22 +130,25 @@ public class DefaultEventcheckReceiver extends AbstractEventCheckReceiver {
             log.error("parse date failed {}" + e);
         }
 
-        log.info("It will success at a specified time: " + targetWaitTime);
-        long wt = targetWaitTime.getTime() - System.currentTimeMillis();
-        if(wt > 0){
-            //wt must less than wait.time
-            if(wt <= waitTime){
-                log.info("EventChecker will wait "+ wt + " milliseconds before starting execution");
-                try {
-                    Thread.sleep(wt);
-                } catch (InterruptedException e) {
-                    throw new RuntimeException("EventChecker throws an exception during the waiting time {}"+e);
+        if (targetWaitTime != null) {
+            log.info("It will success at a specified time: " + targetWaitTime);
+            long wt = targetWaitTime.getTime() - System.currentTimeMillis();
+
+            if (wt > 0) {
+                //wt must less than wait.time
+                if (wt <= waitTime) {
+                    log.info("EventChecker will wait " + wt + " milliseconds before starting execution");
+                    try {
+                        Thread.sleep(wt);
+                    } catch (InterruptedException e) {
+                        throw new RuntimeException("EventChecker throws an exception during the waiting time {}" + e);
+                    }
+                } else {
+                    throw new RuntimeException("The waiting time from Job starttime to wait.for.time" + wt + "(ms) greater than wait.time , unreasonable setting！");
                 }
-            }else{
-                throw new RuntimeException("The waiting time from Job starttime to wait.for.time"+ wt +"(ms) greater than wait.time , unreasonable setting！");
+            } else {
+                log.info("EventChecker has reached the specified time");
             }
-        }else{
-            log.info("EventChecker has reached the specified time");
         }
     }
 

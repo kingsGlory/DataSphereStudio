@@ -139,7 +139,7 @@ public class CodeParser implements JobParser {
         List<BMLResource> jobResourceList = linkisAppjointJob.getJobResourceList();
         for (String resourceName : resourceNames) {
             String[] resourceNameSplit = resourceName.split("://");
-            String prefix = resourceNameSplit[0].toLowerCase();
+            String prefix = resourceNameSplit[0].toLowerCase(Locale.ENGLISH);
             String fileName = resourceNameSplit[1];
             BMLResource resource = null;
             String afterFileName = fileName;

@@ -25,8 +25,8 @@ import java.util.Base64;
 import java.util.Properties;
 
 public class DataDruidFactory {
-	private static DruidDataSource jobInstance;
-	private static DruidDataSource msgInstance;
+	private volatile static DruidDataSource jobInstance;
+	private volatile static DruidDataSource msgInstance;
 	
 	public static DruidDataSource getJobInstance(Properties props, Logger log) {
 		if (jobInstance == null ) {
@@ -93,14 +93,19 @@ public class DataDruidFactory {
 		
 		DruidDataSource ds = new DruidDataSource();
 		
-		if (StringUtils.isNotBlank(name)) {
+		if (name != null && StringUtils.isNotBlank(name)) {
 			ds.setName(name);
 		}
-		
-		ds.setUrl(url);
+		if (url != null) {
+			ds.setUrl(url);
+		}
 		ds.setDriverClassName("com.mysql.jdbc.Driver");
-	    ds.setUsername(username);
-	    ds.setPassword(password);
+		if (username != null) {
+			ds.setUsername(username);
+		}
+		if (password != null) {
+			ds.setPassword(password);
+		}
 	    ds.setInitialSize(initialSize);
 	    ds.setMinIdle(minIdle);
 	    ds.setMaxActive(maxActive);

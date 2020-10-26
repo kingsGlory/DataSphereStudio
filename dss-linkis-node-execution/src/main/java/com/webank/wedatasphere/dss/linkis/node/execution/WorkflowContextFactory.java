@@ -28,7 +28,7 @@ import org.apache.commons.lang.StringUtils;
 public class WorkflowContextFactory {
 
     private static Class<? extends WorkflowContext> clazz = WorkflowContextImpl.class;
-    private static WorkflowContext workflowContext = null;
+    private volatile static WorkflowContext workflowContext = null;
 
     public static void register(Class<? extends WorkflowContext> clazz) {
         WorkflowContextFactory.clazz = clazz;

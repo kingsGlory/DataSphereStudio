@@ -10,6 +10,7 @@ import com.webank.wedatasphere.dss.common.entity.project.Project;
 import com.webank.wedatasphere.dss.common.exception.DSSErrorException;
 import com.webank.wedatasphere.dss.appjoint.scheduler.azkaban.util.AzkabanUtils;
 import com.webank.wedatasphere.dss.common.utils.DSSExceptionUtils;
+import com.webank.wedatasphere.dss.common.utils.FileHelper;
 import com.webank.wedatasphere.dss.common.utils.ZipHelper;
 import org.apache.commons.io.IOUtils;
 import org.apache.commons.lang.StringUtils;
@@ -175,7 +176,9 @@ public final class AzkabanProjectService extends AppJointUrlImpl implements Sche
         HttpPost httpPost = new HttpPost(projectUrl + "?project=" + projectName);
         httpPost.addHeader(HTTP.CONTENT_ENCODING, "UTF-8");
         CloseableHttpResponse response = null;
-        File file = new File(tmpSavePath);
+        tmpSavePath = FileHelper.filenameFilter(tmpSavePath);
+        File file = new File("");
+
         CookieStore cookieStore = new BasicCookieStore();
         cookieStore.addCookie(cookie);
         CloseableHttpClient httpClient = null;
@@ -202,9 +205,15 @@ public final class AzkabanProjectService extends AppJointUrlImpl implements Sche
             throw new AppJointErrorException(90014,e.getMessage(), e);
         }
         finally {
-            IOUtils.closeQuietly(inputStream);
-            IOUtils.closeQuietly(response);
-            IOUtils.closeQuietly(httpClient);
+            if (inputStream != null) {
+                IOUtils.closeQuietly(inputStream);
+            }
+            if (response != null) {
+                IOUtils.closeQuietly(response);
+            }
+            if (httpClient != null) {
+                IOUtils.closeQuietly(httpClient);
+            }
         }
     }
 

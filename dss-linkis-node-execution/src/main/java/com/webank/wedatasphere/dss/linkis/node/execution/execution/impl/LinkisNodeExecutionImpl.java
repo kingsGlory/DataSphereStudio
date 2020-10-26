@@ -59,7 +59,7 @@ public class LinkisNodeExecutionImpl implements LinkisNodeExecution , LinkisExec
         return linkisExecution;
     }
 
-    private UJESClient client;
+    private volatile UJESClient client;
 
     private ArrayList<JobParser> jobParsers = new ArrayList<>();
 

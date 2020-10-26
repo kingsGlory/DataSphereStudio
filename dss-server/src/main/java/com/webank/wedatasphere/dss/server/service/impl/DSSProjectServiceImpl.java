@@ -113,6 +113,7 @@ public class DSSProjectServiceImpl implements DSSProjectService {
         Long userID = dssUserMapper.getUserID(userName);
         //创建dss自己的project
         Pair<Long, Long> pair = addDSSProject(userID, name, description,product,applicationArea,business, workspaceId);
+        logger.info("project name:{}, project version:{}", pair.getFirst(), pair.getSecond());
         //添加关联
         projectTaxonomyMapper.addProjectTaxonomyRelation(pair.getFirst(), taxonomyID, userID);
         if(!appjointProjectIDAndAppID.isEmpty())projectMapper.addAccessProjectRelation(appjointProjectIDAndAppID,pair.getFirst());
@@ -159,6 +160,7 @@ public class DSSProjectServiceImpl implements DSSProjectService {
     private void createSchedulerProject(DSSProject dssProject) throws DSSErrorException {
         try {
             if(getSchedulerAppJoint() != null) {
+                logger.info("Add scheduler project failed for scheduler appjoint");
                 functionInvoker.projectServiceAddFunction(dssProject, ProjectService::createProject, Arrays.asList(getSchedulerAppJoint()));
             }else{
                 logger.error("Add scheduler project failed for scheduler appjoint is null");

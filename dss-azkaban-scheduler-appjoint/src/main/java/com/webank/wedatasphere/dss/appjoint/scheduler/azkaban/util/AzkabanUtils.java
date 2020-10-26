@@ -20,7 +20,7 @@ public class AzkabanUtils {
             if (map.get("status") != null) {
                 status = map.get("status").toString();
             }
-            if (StringUtils.isNotEmpty(status)) {
+            if (status != null && StringUtils.isNotEmpty(status)) {
                 if (null != map.get("message")) {
                     message = map.get("message").toString();
                 }

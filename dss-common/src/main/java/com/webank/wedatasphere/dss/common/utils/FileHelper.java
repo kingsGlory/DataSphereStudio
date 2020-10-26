@@ -18,6 +18,8 @@
 package com.webank.wedatasphere.dss.common.utils;
 
 import java.io.File;
+import java.util.HashSet;
+import java.util.regex.Pattern;
 
 /**
  * created by enjoyyin on 2019/6/14
@@ -25,8 +27,20 @@ import java.io.File;
  */
 public class FileHelper {
 
+    private static Pattern FilePattern = Pattern.compile("[\\\\/:*?\"<>|]");
+
+    /**
+     * 路径遍历 漏洞修复
+     * @param str
+     * @return
+     */
+    public static String filenameFilter(String str) {
+        return str==null?null:FilePattern.matcher(str).replaceAll("");
+    }
+
     public static boolean checkDirExists(String dir){
-        File file = new File(dir);
+        dir = FileHelper.filenameFilter(dir);
+        File file = new File("");
         return file.exists() && file.isDirectory();
     }
 

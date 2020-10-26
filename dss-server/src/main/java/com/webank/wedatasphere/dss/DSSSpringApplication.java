@@ -54,6 +54,7 @@ import org.springframework.core.env.CompositePropertySource;
 import org.springframework.core.env.Environment;
 import org.springframework.core.env.PropertySource;
 import org.springframework.core.env.StandardEnvironment;
+import org.springframework.util.ReflectionUtils;
 import org.springframework.web.filter.CharacterEncodingFilter;
 
 import javax.servlet.DispatcherType;
@@ -116,7 +117,7 @@ public class DSSSpringApplication extends SpringBootServletInitializer {
 
     private static void setApplicationContext(ConfigurableApplicationContext applicationContext) throws Exception {
         Field applicationContextField = DataWorkCloudApplication.class.getDeclaredField("applicationContext");
-        applicationContextField.setAccessible(true);
+        ReflectionUtils.makeAccessible(applicationContextField);
         applicationContextField.set(null,applicationContext);
     }
 
@@ -166,7 +167,7 @@ public class DSSSpringApplication extends SpringBootServletInitializer {
 
     private static void setServiceInstance(ServiceInstance serviceInstance) throws Exception {
         Field applicationContextField = DataWorkCloudApplication.class.getDeclaredField("serviceInstance");
-        applicationContextField.setAccessible(true);
+        ReflectionUtils.makeAccessible(applicationContextField);
         applicationContextField.set(null,serviceInstance);
     }
 

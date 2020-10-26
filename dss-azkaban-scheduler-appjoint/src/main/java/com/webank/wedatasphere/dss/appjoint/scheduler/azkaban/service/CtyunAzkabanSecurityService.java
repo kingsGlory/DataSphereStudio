@@ -129,10 +129,28 @@ public final class CtyunAzkabanSecurityService extends AppJointUrlImpl implement
         return des.decryptStr(token, CharsetUtil.CHARSET_UTF_8);
     }
 
-    private PreparedStatement createPreparedStatement(Connection connection, String username) throws SQLException {
+    private PreparedStatement createPreparedStatement(Connection connection, String username)  {
         String sql = "SELECT password FROM ctyun_user WHERE username= ?";
-        PreparedStatement ps = connection.prepareStatement(sql);
-        ps.setString(1, username);
+        PreparedStatement ps = null;
+        try {
+            ps = connection.prepareStatement(sql);
+            ps.setString(1, username);
+        } catch (SQLException e) {
+            e.printStackTrace();
+        } finally {
+            try {
+                connection.close();
+            } catch (SQLException e) {
+                e.printStackTrace();
+            }
+            if (ps != null) {
+                try {
+                    ps.close();
+                } catch (SQLException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
         return ps;
     }
 

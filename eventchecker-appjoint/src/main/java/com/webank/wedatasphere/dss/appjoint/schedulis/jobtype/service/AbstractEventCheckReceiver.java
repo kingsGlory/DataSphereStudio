@@ -58,8 +58,8 @@ public class AbstractEventCheckReceiver extends AbstractEventCheck{
                 } else {
                     props.put(EventChecker.MSG, vMsg);
                 }
-                log.info("Received message : messageID: " + vNewMsgID + ", messageName: " + vMsgName + ", receiver: " + vSender
-                        + ", messageBody: " + vMsg);
+//                log.info("Received message : messageID: " + vNewMsgID + ", messageName: " + vMsgName + ", receiver: " + vSender
+//                        + ", messageBody: " + vMsg);
             }
         }catch (Exception e) {
             log.error("Error set consumed message failed {} setConsumedMsg failed" + e);
@@ -83,62 +83,83 @@ public class AbstractEventCheckReceiver extends AbstractEventCheck{
         PreparedStatement pstmtForGetID = null;
         Connection msgConn = null;
         vNewMsgID = setConsumedMsg(props,log,consumedMsgInfo);
-        try {
-            if(StringUtils.isNotEmpty(vNewMsgID) && StringUtils.isNotBlank(vNewMsgID) && !"-1".equals(vNewMsgID)){
-                msgConn = getEventCheckerConnection(props,log);
-                if(msgConn == null) return false;
-                msgConn.setAutoCommit(false);
-                String sqlForReadMsgID = "SELECT msg_id FROM event_status WHERE receiver=? AND topic=? AND msg_name=? for update";
-                pstmtForGetID = msgConn.prepareCall(sqlForReadMsgID);
-                pstmtForGetID.setString(1, receiver);
-                pstmtForGetID.setString(2, topic);
-                pstmtForGetID.setString(3, msgName);
-                ResultSet rs = pstmtForGetID.executeQuery();
-                String nowLastMsgId = rs.last()==true ? rs.getString("msg_id"):"0";
-                log.info("receive message successfully , Now check to see if the latest offset has changed ,nowLastMsgId is {} " + nowLastMsgId);
-                if("0".equals(nowLastMsgId) || nowLastMsgId.equals(lastMsgId)){
-
-                    int vProcessID = jobId;
-                    String vReceiveTime = DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");;
-                    String sqlForUpdateMsg = "INSERT INTO event_status(receiver,topic,msg_name,receive_time,msg_id) VALUES(?,?,?,?,?) ON DUPLICATE KEY UPDATE receive_time=VALUES(receive_time),msg_id= CASE WHEN msg_id= " + lastMsgId + " THEN VALUES(msg_id) ELSE msg_id END";
-                    log.info("last message offset {} is:" + lastMsgId);
-                    updatePstmt = msgConn.prepareCall(sqlForUpdateMsg);
-                    updatePstmt.setString(1, receiver);
-                    updatePstmt.setString(2, topic);
-                    updatePstmt.setString(3, msgName);
-                    updatePstmt.setString(4, vReceiveTime);
-                    updatePstmt.setString(5, vNewMsgID);
-                    int updaters = updatePstmt.executeUpdate();
-                    log.info("updateMsgOffset successful {} update result is:" + updaters);
-                    if(updaters != 0){
-                        log.info("Received message successfully , update message status succeeded, consumed flow execution ID: " + vProcessID);
-                        //return true after update success
-                        result = true;
-                    }else{
-                        log.info("Received message successfully , update message status failed, consumed flow execution ID: " + vProcessID);
-                        result = false;
-                    }
-                }else{
-                    log.info("the latest offset has changed , Keep waiting for the signal");
-                    result = false;
-                }
-                msgConn.commit();
-            }else{
-                result = false;
-            }
-        }catch (SQLException e){
-            log.error("Error update Msg Offset" + e);
-            try {
-                msgConn.rollback();
-            } catch (SQLException ex) {
-                log.error("transaction rollback failed " + e);
-            }
-            return false;
-        }finally {
-            closeQueryStmt(pstmtForGetID, log);
-            closeQueryStmt(updatePstmt, log);
-            closeConnection(msgConn, log);
-        }
+//        try {
+//            if(StringUtils.isNotEmpty(vNewMsgID) && StringUtils.isNotBlank(vNewMsgID) && !"-1".equals(vNewMsgID)){
+//                msgConn = getEventCheckerConnection(props,log);
+//                if(msgConn == null) return false;
+//                msgConn.setAutoCommit(false);
+//                String sqlForReadMsgID = "SELECT msg_id FROM event_status WHERE receiver=? AND topic=? AND msg_name=? for update";
+//                pstmtForGetID = msgConn.prepareCall(sqlForReadMsgID);
+//                pstmtForGetID.setString(1, receiver);
+//                pstmtForGetID.setString(2, topic);
+//                pstmtForGetID.setString(3, msgName);
+//                ResultSet rs = pstmtForGetID.executeQuery();
+//                String nowLastMsgId = rs.last()==true ? rs.getString("msg_id"):"0";
+////                log.info("receive message successfully , Now check to see if the latest offset has changed ,nowLastMsgId is {} " + nowLastMsgId);
+//                if("0".equals(nowLastMsgId) || nowLastMsgId.equals(lastMsgId)){
+//
+//                    int vProcessID = jobId;
+//                    String vReceiveTime = DateFormatUtils.format(new Date(), "yyyy-MM-dd HH:mm:ss");;
+//                    String sqlForUpdateMsg = "INSERT INTO event_status(receiver,topic,msg_name,receive_time,msg_id) VALUES(?,?,?,?,?) ON DUPLICATE KEY UPDATE receive_time=VALUES(receive_time),msg_id= CASE WHEN msg_id= " + lastMsgId + " THEN VALUES(msg_id) ELSE msg_id END";
+////                    log.info("last message offset {} is:" + lastMsgId);
+//                    updatePstmt = msgConn.prepareCall(sqlForUpdateMsg);
+//                    if (receiver.length() < 8) {
+//                        updatePstmt.setString(1, receiver);
+//                    }
+//                    if (topic.length() < 20) {
+//                        updatePstmt.setString(2, topic);
+//                    }
+//                    if (msgName.length() < 10) {
+//                        updatePstmt.setString(3, msgName);
+//                    }
+//                    updatePstmt.setString(4, vReceiveTime);
+//                    updatePstmt.setString(5, vNewMsgID);
+//                    int updaters = updatePstmt.executeUpdate();
+//                    log.info("updateMsgOffset successful {} update result is:" + updaters);
+//                    if(updaters != 0){
+//                        log.info("Received message successfully , update message status succeeded, consumed flow execution ID: " + vProcessID);
+//                        //return true after update success
+//                        result = true;
+//                    }else{
+//                        log.info("Received message successfully , update message status failed, consumed flow execution ID: " + vProcessID);
+//                        result = false;
+//                    }
+//                }else{
+//                    log.info("the latest offset has changed , Keep waiting for the signal");
+//                    result = false;
+//                }
+//                msgConn.commit();
+//            }else{
+//                result = false;
+//            }
+//        }catch (SQLException e){
+//            log.error("Error update Msg Offset" + e);
+//            try {
+//                msgConn.rollback();
+//            } catch (SQLException ex) {
+//                log.error("transaction rollback failed " + e);
+//            }
+//            return false;
+//        }finally {
+//            closeQueryStmt(pstmtForGetID, log);
+//            try {
+//                pstmtForGetID.close();
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//            try {
+//                updatePstmt.close();
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//            try {
+//                msgConn.close();
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//            closeQueryStmt(updatePstmt, log);
+//            closeConnection(msgConn, log);
+//        }
         return result;
     }
 
@@ -171,7 +192,7 @@ public class AbstractEventCheckReceiver extends AbstractEventCheck{
             closeConnection(msgConn,log);
             closeQueryRef(rs,log);
         }
-        log.info("The last record id was " + lastMsgId);
+//        log.info("The last record id was " + lastMsgId);
         return lastMsgId;
     }
 
@@ -197,8 +218,8 @@ public class AbstractEventCheckReceiver extends AbstractEventCheck{
             pstmt.setString(3, params[0]);
             pstmt.setString(4, params[1]);
             pstmt.setString(5, params[2]);
-            log.info("param {} StartTime: " + params[0] + ", EndTime: " + params[1]
-                    + ", Topic: " + topic + ", MessageName: " + msgName + ", LastMessageID: " + params[2]);
+//            log.info("param {} StartTime: " + params[0] + ", EndTime: " + params[1]
+//                    + ", Topic: " + topic + ", MessageName: " + msgName + ", LastMessageID: " + params[2]);
             rs = pstmt.executeQuery();
 
             if(rs.last()){

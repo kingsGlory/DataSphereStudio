@@ -43,7 +43,7 @@ public class DataCheckerDao {
 			"SELECT * FROM DBS d JOIN TBLS t ON t.DB_ID = d.DB_ID JOIN PARTITIONS p ON p.TBL_ID = t.TBL_ID WHERE d.NAME=? AND t.TBL_NAME=? AND p.PART_NAME=?";
 
 	private static DataSource jobDS;
-	private static DataCheckerDao instance;
+	private volatile static DataCheckerDao instance;
 
 	public static DataCheckerDao getInstance() {
 		if (instance == null) {
@@ -145,45 +145,70 @@ public class DataCheckerDao {
 			log.error("DataObject is null");
 			return 0;
 		}
-		log.info("-------------------------------------- search hive/spark/mr data ");
-		log.info("-------------------------------------- : " + dataObject);
-		try (PreparedStatement pstmt = getStatement(conn, dataObject)) {
-			ResultSet rs = pstmt.executeQuery();
-			return rs.last() ? rs.getRow() : 0;
-		} catch (SQLException e) {
-			log.error("fetch data from Hive MetaStore error", e);
-			return 0;
-		}
+//		log.info("-------------------------------------- search hive/spark/mr data ");
+//		log.info("-------------------------------------- : " + dataObject);
+        PreparedStatement pstmt = null;
+//		try {
+//		    pstmt = getStatement(conn, dataObject);
+//			ResultSet rs = pstmt.executeQuery();
+//			return rs.last() ? rs.getRow() : 0;
+//		} catch (SQLException e) {
+//			log.error("fetch data from Hive MetaStore error", e);
+//			return 0;
+//		} finally {
+//            try {
+//            	if (pstmt != null) {
+//					pstmt.close();
+//				}
+//            } catch (SQLException e) {
+//                e.printStackTrace();
+//            }
+//        }
+		return 0;
 	}
 
-	private PreparedStatement getStatement(Connection conn, String dataObject) throws SQLException {
-		String dataScape =  dataObject.contains("{") ? "Partition" : "Table";
-		String[] dataObjectArray = dataObject.split("\\.");
-		String dbName = dataObjectArray[0];
-		String tableName = dataObjectArray[1];
-		if(dataScape.equals("Partition")) {
-			Pattern pattern = Pattern.compile("\\{([^\\}]+)\\}");
-			Matcher matcher = pattern.matcher(dataObject);
-			String partitionName = null;
-			if(matcher.find()){
-				partitionName = matcher.group(1);
-			}
-			partitionName = partitionName.replace("\'", "").replace("\"", "");
-			tableName = tableName.split("\\{")[0];
-			PreparedStatement pstmt = conn.prepareCall(SQL_SOURCE_TYPE_JOB_PARTITION);
-			pstmt.setString(1, dbName);
-			pstmt.setString(2, tableName);
-			pstmt.setString(3, partitionName);
-			return pstmt;
-		} else if(dataObjectArray.length == 2){
-			PreparedStatement pstmt = conn.prepareCall(SQL_SOURCE_TYPE_JOB_TABLE);
-			pstmt.setString(1, dbName);
-			pstmt.setString(2, tableName);
-			return pstmt;
-		}else {
-			throw new SQLException("Incorrect input format for dataObject "+ dataObject);
-		}
-	}
+//	private PreparedStatement getStatement(Connection conn, String dataObject) throws SQLException {
+//		String dataScape =  dataObject.contains("{") ? "Partition" : "Table";
+//		String[] dataObjectArray = dataObject.split("\\.");
+//		String dbName = dataObjectArray[0];
+//		String tableName = dataObjectArray[1];
+//		if(dataScape.equals("Partition")) {
+//			Pattern pattern = Pattern.compile("\\{([^\\}]+)\\}");
+//			Matcher matcher = pattern.matcher(dataObject);
+//			String partitionName = null;
+//			if(matcher.find()){
+//				partitionName = matcher.group(1);
+//			}
+//			if (partitionName != null) {
+//				partitionName = partitionName.replace("\'", "").replace("\"", "");
+//			}
+//			tableName = tableName.split("\\{")[0];
+//			PreparedStatement pstmt = null;
+//			try {
+//				pstmt = conn.prepareCall(SQL_SOURCE_TYPE_JOB_PARTITION);
+//				pstmt.setString(1, dbName);
+//				pstmt.setString(2, tableName);
+//				pstmt.setString(3, partitionName);
+//				return pstmt;
+//			}
+//		} else if(dataObjectArray.length == 2) {
+//            PreparedStatement pstmt = null;
+//            try {
+//                pstmt = conn.prepareCall(SQL_SOURCE_TYPE_JOB_TABLE);
+//                pstmt.setString(1, dbName);
+//                pstmt.setString(2, tableName);
+//                return pstmt;
+//            } catch (Exception e) {
+//            } finally {
+//                if (pstmt != null) {
+//                    pstmt.close();
+//                }
+//            }
+//		}else {
+//			throw new SQLException("Incorrect input format for dataObject "+ dataObject);
+//		}
+//		return null;
+//	}
 
 	public static void closeDruidDataSource(){
 		DruidDataSource jobDSObject = (DruidDataSource)jobDS;
