@@ -1780,7 +1780,7 @@
                     "createdTime": "创建时间",
                     "finishTime": "完成时间",
                     "woDesc": "问题详情",
-                    "resolvedResult": "反馈结果",
+                    "resolveResult": "反馈结果",
                     "attach": "附件"
                 }
             },
