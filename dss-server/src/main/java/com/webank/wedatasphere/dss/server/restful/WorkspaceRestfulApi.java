@@ -50,14 +50,12 @@ public class WorkspaceRestfulApi {
     @Autowired
     private DSSWorkspaceService dssWorkspaceService;
 
-    @Autowired
-    private DSSUserService dssUserService;
-
     @GET
     @Path("/workspaces")
     public Response getAllWorkspaces(@Context HttpServletRequest req) {
+        String userName = SecurityFilter.getLoginUsername(req);
         // TODO: Order By time
-        List<DSSWorkspace> workspaces = dssWorkspaceService.getWorkspaces();
+        List<DSSWorkspace> workspaces = dssWorkspaceService.getWorkspaces(userName);
         return Message.messageToResponse(Message.ok().data("workspaces", workspaces));
     }
 
@@ -78,7 +76,8 @@ public class WorkspaceRestfulApi {
     @GET
     @Path("/workspaces/exists")
     public Response getUsernameExistence(@Context HttpServletRequest req, @QueryParam("name") String name) {
-        boolean exists = dssWorkspaceService.existWorkspaceName(name);
+        String userName = SecurityFilter.getLoginUsername(req);
+        boolean exists = dssWorkspaceService.existWorkspaceName(name, userName);
         return Message.messageToResponse(Message.ok().data("workspaceNameExists", exists));
     }
 
@@ -87,7 +86,7 @@ public class WorkspaceRestfulApi {
     public Response addWorkspace(@Context HttpServletRequest req, JsonNode json) {
         String userName = SecurityFilter.getLoginUsername(req);
         String name = json.get("name").getTextValue();
-        if (dssWorkspaceService.existWorkspaceName(name)) {
+        if (dssWorkspaceService.existWorkspaceName(name, userName)) {
             return Message.messageToResponse(Message.error("工作空间名重复"));
         }
         String department = json.get("department").getTextValue();

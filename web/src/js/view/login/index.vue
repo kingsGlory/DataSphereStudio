@@ -87,6 +87,7 @@ export default {
     };
   },
   created() {
+    this.logout();
     let userNameAndPass = storage.get('saveUserNameAndPass', 'local');
     if (userNameAndPass) {
       this.rememberUserNameAndPass = true;
@@ -104,8 +105,17 @@ export default {
     socket.methods.close();
   },
   methods: {
+    logout(){
+      if(process.env.VUE_APP_CTYUN_SSO){
+        api.fetch('/user/logout', 'get').then(() => {
+          this.$emit('clear-session');
+          this.$router.push('/');
+        // this.$router.push({ path: '/login' });
+        });
+      }
+    },
     getCapt(){
-      axios.get('/api/rest_j/v1/user/captcha').then(data=>{
+      axios.get(`${process.env.VUE_APP_PREFIX}/api/rest_j/v1/user/captcha`).then(data=>{
         api.fetch('/user/captcha', 'get').then((data)=>{
           this.captImg = data.image
         }).catch(()=>{

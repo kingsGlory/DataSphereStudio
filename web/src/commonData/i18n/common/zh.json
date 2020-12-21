@@ -1,7 +1,7 @@
 {
     "message": {
         "newConst": {
-            "logoName": "DataSphere Studio",
+            "logoName": "CT-Luban",
             "ok": "确认",
             "cancel": "取消",
             "newCreate": "新建",
@@ -23,6 +23,7 @@
         "project": {
             "projectName": "工程名",
             "gotoScriptis": "进入Scriptis",
+            "createproject": "创建工程",
             "createProject": "创建工程",
             "editorProject": "修改工程",
             "search": "搜索工程",
@@ -37,7 +38,7 @@
             "selectAppArea": "请选择应用领域",
             "business": "业务",
             "addBusiness": "新增业务",
-            "tips": "DataSphere Studio介绍:\nDataSphere Studio是微众银行大数据平台——WeDataSphere，自研的数据应用开发门户，基于Linkis数据中间件构建，轻松整合数据平台上层各应用组件，让数据应用开发变得简洁又易用。\nDataSphere Studio作为一站式数据研发、可视化、数据治理和调度的数据应用开发门户，定位为闭环涵盖数据应用的全流程，满足从数据导入、数据清洗、数据加工、数据可视化展现、数据治理到数据输出的数据应用全生命周期开发场景。\n创建一个工程，开始您的数据应用开发之旅吧！",
+            "tips": "CT-Luban介绍:\nCT-Luban是天翼云——鲁班，与开源社区合作研发的，细粒度资源管控、多租户隔离、高可用，高并发，可扩展，高性能的一站式数据开发与服务门户，基于Linkis数据中间件构建，轻松整合数据平台上层各应用组件，让数据应用开发变得简洁又易用。\nCT-Luban作为一站式数据研发、可视化、数据治理和调度的数据应用开发门户，定位为闭环涵盖数据应用的全流程，满足从数据导入、数据清洗、数据加工、数据可视化展现、数据治理到数据输出的数据应用全生命周期开发场景。\n创建一个工程，开始您的数据应用开发之旅吧！",
             "updteTime": "修改时间",
             "nameUnrepeatable": "名称不可重复！",
             "eidtorProjectSuccess": "修改工程{name}成功！",
@@ -82,18 +83,19 @@
             "publishSuccess": "发布成功",
             "publishFailed": "发布失败",
             "infoTitle": "欢迎信息",
-            "infoHeader": "欢迎来到工作流开发首页！",
-            "infoBodyFirstRow": "DataSphere Studio是微众银行大数据平台——WeDataSphere，自研的一站式数据应用开发管理门户。",
-            "infoBodySecondRow": "基于Linkis计算中间件构建，可轻松整合上层各数据应用系统，让数据应用开发变得简洁又易用。",
+            "infoHeader": "欢迎来到天翼云.鲁班！",
+            "infoBodyFirstRow": "鲁班是天翼云基于开源产品合作共建的一站式大数据开发与服务平台，支持细粒度资源管控、多租户隔离、高可用，高并发，可扩展，高性能等优秀特性。通过高度融合业界前沿的各种大数据技术，为用户提供从数据交换、存储、开发、治理、可视化、服务、安全等全链路大数据解决方案。",
+            "infoBodyFirstSubtitle":"机关，是数字的哲学",
+            "infoBodySecondRow": "当前鲁班中融合的上层核心开源产品是基于微众银行开源的WeDataSphere大数据平台套件，如DataSphere Studio0.9.0、Linkis0.9.4等产品联合打造而成的，具备企业级数据开发、细粒度资源管控、金融级数据安全等能力；底层是Apache Hadoop 3.2.1，Apache Spark 3.0.1等产品，支持存储EC、跨机房容灾，更高更智能的性能等优秀特性。",
             "appTitle": "应用导航",
             "workspace": "工作空间",
             "applicationMore": "了解更多",
             "applicationTipsFirst": "工程 > 工作流，是应用开发的基本组织结构。",
-            "applictaionTipsSecond": "在工作流拖拽编辑页面，DataSphere Studio已集成的所有数据应用系统，都将以工作流节点的形式出现，让您能够以业务的视角将其编排串连起来，快速实现全部业务。",
+            "applictaionTipsSecond": "在工作流拖拽编辑页面，CT-Luban已集成的所有数据应用系统，都将以工作流节点的形式出现，让您能够以业务的视角将其编排串连起来，快速实现全部业务。",
             "integratedSystem": "已集成系统",
             "howToIntegratedsystem": "如何集成新系统",
-            "systemTipsFrist": "AppJoint—应用关节，是DataSphere Studio集成外部系统的核心概念。",
-            "systemTipsSecond": "AppJoint定义了一套统一且规范的前后台接入标准，让外部系统可简单快速地接入，成为DataSphere Studio全生命周期数据应用开发中的一环。",
+            "systemTipsFrist": "AppJoint—应用关节，是CT-Luban集成外部系统的核心概念。",
+            "systemTipsSecond": "AppJoint定义了一套统一且规范的前后台接入标准，让外部系统可简单快速地接入，成为CT-Luban全生命周期数据应用开发中的一环。",
             "clickMeAndSkip": "点我了解如何集成",
             "exchangisSubTitle": "数据交换",
             "scriptisSubTitle": "数据开发探索",
@@ -105,7 +107,7 @@
             "noData": "暂无数据请添加"
         },
         "workspace": {
-          "infoHeader": "欢迎来到 DataSphere Studio !",
+          "infoHeader": "欢迎来到天翼云.鲁班！ ",
           "createWorkspace": "创建工作空间",
           "searchWorkspace": "搜索工作空间",
           "workspaceList": "工作空间列表",
@@ -125,6 +127,47 @@
           "tableDisplay": "列表展示",
           "cardDisplay": "图标展示",
           "createTime": "创建时间"
+        },
+        "api": {
+          "name": "API名称",
+          "frequency": "定时时长",
+          "createTime": "创建时间",
+          "action": "操作",
+          "enterName": "请输入名称",
+          "enterUrl": "请输入API地址",
+          "url": "API地址",
+          "dataJsonPath": "数据字段",
+          "successCode": "成功码值",
+          "successCodeJsonPath": "成功码字段",
+          "defaultFS": "HDFS地址",
+          "path": "HIVE表存储路径",
+          "fileName": "HIVE表名",
+          "startSuccess": "执行成功！",
+          "startFail": "执行失败！",
+          "stopSuccess": "停止成功！",
+          "stopFail": "停止失败！",
+          "source": "源字段",
+          "target": "目标字段",
+          "ok": "确定",
+          "cancel": "返回",
+          "selectFrequency": "选择时长",
+          "addParams": "添加API参数",
+          "delete": "删除",
+          "enterDataPath": "请输入数据字段",
+          "enterCode": "请输入成功码",
+          "enterCodePath": "请输入成功码字段",
+          "enterHive": "请输入HDFS地址",
+          "enterPath": "请输入HIVE表存储路径",
+          "enterFileName": "请输入表名",
+          "enterReaderCol": "请添加源字段",
+          "enterWriterCol": "请添加目标字段",
+          "enterSourceName": "源字段",
+          "addRelation": "添加映射",
+          "selectType": "请选择类型",
+          "relation": "字段映射",
+          "enterMapping": "请输入字段映射",
+          "successNotice": "创建成功！",
+          "failedNotice": "创建失败！"
         },
         "GLY": {
           "ALTY": "案例体验",
@@ -257,7 +300,7 @@
                 "file": "文件",
                 "link": "链接",
                 "SRZQNR": "请输入正确内容",
-                "XZSFX": "请选择发送项",
+                "XZSFX": "暂时仅支持display,dashboard节点",
                 "ZYXX": "资源信息：",
                 "BC": "保存",
                 "MLHCS": "命令行参数",
@@ -634,7 +677,10 @@
         "navMune": {
             "FAQ": "常见问题",
             "clearCache": "清理缓存",
-            "logOut": "退出登录"
+            "logOut": "退出登录",
+            "workOrder": "我的订单",
+            "feedBack": "我的反馈",
+            "newsNotice": "消息通知"
         },
         "shape": {
             "dataDev": "数据开发",
@@ -793,7 +839,7 @@
             "viewTableColumns": "更多字段请在“查看表字段”页面查看"
         },
         "login": {
-            "loginTitle": "欢迎登录DataSphere Studio系统！",
+            "loginTitle": "欢迎登录CT-Luban系统！",
             "userName": "请输入用户名",
             "remenber": "记住当前用户",
             "login": "登录",
@@ -807,11 +853,12 @@
             "title": "警告",
             "content": "<p>此操作将清空本地数据库缓存，这样会丢失您的脚本日志、历史和结果集等相关信息，请确认是否有未保存的脚本！</p><p>点击确认按钮继续操作？</p>",
             "clearCacheSuccess": "清除本地数据缓存成功!",
-            "comingSoon": "尚未开源，敬请期待！"
+            "comingSoon": "暂未开放！"
         },
         "header": {
             "home": "首页",
-            "console": "控制台"
+            "console": "控制台",
+            "appName": "鲁班"
         },
         "headerNavBar": {
             "Workflow": "工作流开发",
@@ -922,7 +969,7 @@
                 "data": "数据请求中，请稍候！",
                 "waiting": "请等待接口返回！",
                 "biLoading": "正在和Visualis系统通讯，请稍候！",
-                "comingSoon": "尚未开源，敬请期待！"
+                "comingSoon": "暂未开放！"
             },
             "success": {
                 "delete": "删除成功！",
@@ -1168,7 +1215,7 @@
                     "save": "保存",
                     "saveAs": "另存为"
                 },
-                "tips": "什么是Scriptis？\nScriptis是微众银行微数域(WeDataSphere)打造的一站式交互式数据探索分析工具，以任意桥(Linkis)做为内核，提供多种计算存储引擎(如Spark、Hive、TiSpark等)、Hive数据库管理功能、资源(如Yarn资源、服务器资源)管理、应用管理和各种用户资源(如UDF、变量等)管理的能力。\nScriptis？\n1. 选中工作空间的目录，创建文件夹；\n2. 右键某个文件夹 =>新建脚本；\n3. 选择脚本类型，如：SQL、Pyspark、HQL等；\n4. 书写脚本，点击执行，生成结果集。",
+                "tips": "什么是Scriptis？\nScriptis是天翼云(Luban)打造的一站式交互式数据探索分析工具，以任意桥(Linkis)做为内核，提供多种计算存储引擎(如Spark、Hive、TiSpark等)、Hive数据库管理功能、资源(如Yarn资源、服务器资源)管理、应用管理和各种用户资源(如UDF、变量等)管理的能力。\nScriptis？\n1. 选中工作空间的目录，创建文件夹；\n2. 右键某个文件夹 =>新建脚本；\n3. 选择脚本类型，如：SQL、Pyspark、HQL等；\n4. 书写脚本，点击执行，生成结果集。",
                 "warning": {
                     "noDBInfo": "未获取到数据库表信息，脚本联想词功能可能存在异常！可刷新重试！",
                     "noUDF": "未获取到UDF和方法函数信息，脚本联想词功能可能存在异常！可刷新重试！",
@@ -1381,7 +1428,7 @@
                         "emptyText": "暂无数据",
                         "resultSetPlaceholder": "请选择结果集",
                         "resultSet": "结果集",
-                        "watermaskText": "由DataWorkShop生成，仅供内部参考，严禁对外分享"
+                        "watermaskText": "由天翼云.鲁班生成，仅供内部参考，严禁对外分享"
                     },
                     "resultsExport": {
                         "header": "结果集导出",
@@ -1661,6 +1708,101 @@
             },
             "success": {
                 "update": "全局变量更新成功！"
+            }
+        },
+        "feedBack": {
+            "addTitle": "提交问题反馈",
+            "appendTitle": "追加问题反馈",
+            "titleTips": "紧急情况请联系",
+            "titleTipsPhone": "400-810-9889",
+            "submitType": "提交类型",
+            "subject": "标题",
+            "pdesc": "问题详情",
+            "uploadFile": "上传附件",
+            "uploadTips": "只能上传jpg/png/gif/pdf/doc/docx/zip文件，且每个文件不超过10M，总文件数不超过10个",
+            "pleaseInputTitle": "请输入200字符以内的标题",
+            "inputTitleMax": "最大只能输入200字符",
+            "pleaseInputProblemDesc": "请输入2000字符以内的问题详情",
+            "inputProblemDescMax": "最大只能输入2000字符",
+            "uploadFileTypeMsg": "上传文件类型错误！",
+            "uploadFileSizeMsg": "上传文件不允许为空且单个大小最大为10M！",
+            "uploadMaxFileMsg": "已超过最大上传文件数，最多可上传10个文件！",
+            "uploadFileRenameMsg": "上传文件名重复！",
+            "nonExitUserName": "未获取到用户名，请稍后提交",
+            "messageDuration": "3",
+            "submitTypeContent": {
+                "productAdvice": {
+                    "content": "请输入您对天翼云鲁班大数据开发服务平台在XXX场景下的建议",
+                    "ipriority": "ipriority.mid"
+                },
+                "functionAdvice": {
+                    "content": "请输入您在使用天翼云鲁班大数据开发服务平台时遇到的阻碍或者问题",
+                    "ipriority": "ipriority.high"
+                },
+                "other": {
+                    "content": "请输入您对天翼云鲁班的咨询类问题，如账号、代金券、订单等",
+                    "ipriority": "ipriority.low"
+                }
+            },
+            "success": {
+                "saveMsg": "提交成功！"
+            }
+        },
+        "newsNotice": {
+            "columns": {
+                "status": "状态",
+                "subject": "标题",
+                "createdTime": "创建时间",
+                "updatedTime": "更新时间",
+                "operate": {
+                    "colTitle": "操作",
+                    "button": {
+                        "detail": "查看",
+                        "recall": "撤回",
+                        "appendFeedBack": "追加反馈"
+                    }
+                }
+            },
+            "statusType": {
+                "processing": "处理中",
+                "processed": "已处理",
+                "resloved": "已解决",
+                "closed": "已撤回"
+            },
+            "detail": {
+                "title": "消息详情",
+                "appendFeedback": "追加反馈",
+                "resloved": "确认已解决",
+                "emptyText": "暂无",
+                "detailForm": {
+                    "status": "状态",
+                    "subject": "标题",
+                    "createdTime": "创建时间",
+                    "finishTime": "完成时间",
+                    "woDesc": "问题详情",
+                    "resolvedResult": "反馈结果",
+                    "attach": "附件"
+                }
+            },
+            "placeholderMsg": {
+                "pleaseInputSubject": "请输入标题查询",
+                "pleaseSelectStatus": "请选择状态"
+            },
+            "success": {
+                "recall": "撤回成功！",
+                "reslovedMsg": "提交成功！",
+                "attachMsg": "附件删除成功！"
+            },
+            "confirm": {
+                "title": "提示",
+                "recallContent": "请确认是否撤回该问题？",
+                "judgeFeedBackContent": "该问题不可再追加反馈！",
+                "reslovedContent": "请确认该问题是否已解决？",
+                "deleteFile": "确认删除该附件？"
+            },
+            "warning": {
+                "title": "提示",
+                "appendFeedBackMax": "该问题已超过最大反馈次数，不可再追加！"
             }
         }
     }

@@ -650,6 +650,7 @@ export default {
         }
       }, 1000 * 60 * 5);
     }
+    this.$bus.$on('workflow:save', this.onSave);
   },
   beforeDestroy() {
     if (this.timer) {
@@ -1261,6 +1262,25 @@ export default {
       }
       this.saveModal = true;
     },
+    onSave(resourceId){
+      // window.console.log('onSave',resourceId);
+      let nodeNoInit = true;
+      let json = JSON.parse(JSON.stringify(this.json));
+      if(json && json.nodes){
+        json.nodes.forEach((node) => {
+
+          if (!node.resources) {
+            node.resources = [];
+          }
+          if(node.resources.indexOf(resourceId) !== -1){
+            nodeNoInit = false;
+          }
+        });
+      }
+      if(nodeNoInit){
+        this.autoSave("自动保存", true);
+      }
+    },
     /**
          * 保存工作流
          */
@@ -1633,11 +1653,13 @@ export default {
         const type = ext[node.type];
         const match = supportModes.find((item) => item.flowType === type);
         const fileName = `${time.getTime()}${match.ext}`;
+        const fileContent = (rst.fileContent instanceof Array) ? rst.fileContent[0][0]: rst.fileContent;
         const params = {
           fileName,
-          scriptContent: rst.fileContent[0][0],
-          metadata: rst.params,
+          scriptContent: fileContent,
+          metadata: rst.params ? rst.params: rst.metadata,
         };
+        params.metadata = params.metadata || {}
         api.fetch('/filesystem/saveScriptToBML', params, 'post')
           .then((res) => {
             this.$Message.success(this.$t('message.process.associaSuccess'));

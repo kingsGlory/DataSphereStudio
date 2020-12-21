@@ -38,9 +38,9 @@ public class DSSWorkspaceServiceImpl implements DSSWorkspaceService {
     private WorkspaceMapper workspaceMapper;
 
     @Override
-    public List<DSSWorkspace> getWorkspaces() {
+    public List<DSSWorkspace> getWorkspaces(String userName) {
 
-        return workspaceMapper.getWorkspaces();
+        return workspaceMapper.getWorkspaces(userName);
     }
 
     @Override
@@ -64,8 +64,8 @@ public class DSSWorkspaceServiceImpl implements DSSWorkspaceService {
     }
 
     @Override
-    public boolean existWorkspaceName(String name) {
-        return !workspaceMapper.findByWorkspaceName(name).isEmpty();
+    public boolean existWorkspaceName(String name, String username) {
+        return !workspaceMapper.findByWorkspaceName(name, username).isEmpty();
     }
 
     @Override

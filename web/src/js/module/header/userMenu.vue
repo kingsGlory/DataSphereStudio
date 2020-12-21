@@ -9,7 +9,8 @@
       @click="handleClick(menu.id)">
       <Icon
         class="user-menu-item-icon"
-        :type="menu.icon">
+        :type="menu.icon"
+      >
       </Icon>
       <span>{{ menu.name }}</span>
     </li>
@@ -17,6 +18,7 @@
 </template>
 <script>
 import api from '@/js/service/api';
+import Cookies from 'js-cookie';
 export default {
   name: 'Menu',
   data() {
@@ -27,20 +29,32 @@ export default {
         //     name: '用户管理',
         //     icon: 'ios-person-outline',
         // },
+        // {
+        //   id: 'FAQ',
+        //   name: this.$t('message.navMune.FAQ'),
+        //   icon: 'ios-help-circle-outline',
+        // }, 
         {
-          id: 'FAQ',
-          name: this.$t('message.navMune.FAQ'),
-          icon: 'ios-help-circle-outline',
-        }, {
+          id: 'workOrder',
+          name: this.$t('message.navMune.workOrder'),
+          icon: 'ios-paper-outline',
+        },
+        // {
+        //   id: 'feedBack',
+        //   name: this.$t('message.navMune.feedBack'),
+        //   icon: 'ios-create-outline',
+        // },
+        {
           id: 'clearCache',
           name: this.$t('message.navMune.clearCache'),
           icon: 'ios-trash-outline',
         },
+        // {
+        //   id: 'changeLang',
+        //   name: localStorage.getItem('locale') === 'zh-CN' ? 'English' : '简体中文',
+        //   icon: 'md-repeat',
+        // }, 
         {
-          id: 'changeLang',
-          name: localStorage.getItem('locale') === 'zh-CN' ? 'English' : '简体中文',
-          icon: 'md-repeat',
-        }, {
           id: 'logout',
           name: this.$t('message.navMune.logOut'),
           icon: 'ios-log-out',
@@ -59,11 +73,17 @@ export default {
         case 'clearCache':
           this.clearCache();
           break;
+        case 'workOrder':
+          this.gotoWorkOrder();
+          break;
         case 'logout':
           this.getRunningJob();
           break;
         case 'changeLang':
           this.changeLang();
+          break;
+        case 'feedBack':
+          this.gotoMyFeedBack(this.$t('message.navMune.feedBack'));
           break;
       }
     },
@@ -108,10 +128,32 @@ export default {
       this.logout();
     },
     logout() {
-      api.fetch('/user/logout', 'get').then(() => {
-        this.$emit('clear-session');
-        this.$router.push({ path: '/login' });
-      });
+      console.log("process.env.VUE_APP_CTYUN_SSO", process.env.VUE_APP_CTYUN_SSO);
+      Cookies.remove('bdp-user-ticket-id');
+      
+      var keys = document.cookie.match(/[^ =;]+(?==)/g)
+      console.log('keys', keys, document.domain);
+      if (keys) {
+        for (var i = keys.length; i--;) {
+          document.cookie = keys[i] + '=0;path=/;expires=' + new Date(0).toUTCString() // 清除当前域名下的
+          document.cookie = keys[i] + '=0;path=/luban/schedule;domain=' + document.domain + ';expires=' + new Date(0).toUTCString() // 清除当前域名路径下的cookie
+        }
+      }
+      if(process.env.VUE_APP_CTYUN_SSO){
+        api.fetch('/user/logout', 'get').then(() => {
+          this.$emit('clear-session');
+          window.location = process.env.VUE_APP_CTYUN_SSO;
+          // this.$router.push({ path: '/login' });
+        });
+      }else {
+        api.fetch('/user/logout', 'get').then(() => {
+          this.$emit('clear-session');
+          this.$router.push({ path: '/login' });
+        });
+      }
+    },
+    gotoWorkOrder() {
+      this.$router.push('/workOrder');
     },
     changeLang() {
       // 中文切换英文
@@ -121,7 +163,16 @@ export default {
         localStorage.setItem('locale', 'zh-CN');
       }
       window.location.reload();
-    }
+    },
+    gotoMyFeedBack(menuName, status) {
+      this.$router.replace({
+        path: '/redirect/newsNotice',
+        query: {
+          menuName,
+          status
+        }
+      });
+    },
   },
 };
 </script>

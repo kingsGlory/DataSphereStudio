@@ -53,6 +53,8 @@ export default {
       storage.set('userInfo', '', 'SESSION');
       storage.set('copyString', '');
       storage.set('baseInfo', '');
+
+      //清除cookie，防止用户之间登陆用户不一致
     },
     setInit() {
       this.isInit = true;

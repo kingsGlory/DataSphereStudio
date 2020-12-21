@@ -29,14 +29,18 @@ const getVersion = () => {
   return pkg.version;
 }
 
-const host = "0.0.0.0";
-const port = "9001";
+// const host = "ai.ctyun.cn";
+// const port = "8088";
+
+const host = "saas.ctyun.cn";
+const port = "443";
 
 module.exports = {
-  publicPath: './',
+  publicPath: process.env.VUE_APP_PREFIX,
   outputDir: 'dist/dist',
   devServer: {
     port: 8080,
+    https: true,
     open: true,
     disableHostCheck: true,
     overlay: {
@@ -44,18 +48,26 @@ module.exports = {
       errors: true
     },
     proxy: {    //代理转发
-      '^/api/rest_j/v1': {
-        target: `http://${host}:${port}`,  //后端服务地址
+      '^/luban/api/rest_j/v1': {
+        target: `https://${host}:${port}`,  //后端服务地址
         ws: true,
         changeOrigin: true,
         pathRewrite: {
-          '^/api/rest_j/v1': '/api/rest_j/v1'
+          '^/luban/api/rest_j/v1': '/luban/api/rest_j/v1'
         }
       },
-      '^/ws/api': {    //websocket
-        target: `ws://${host}:${port}`,
+      '^/luban/ws/api': {    //websocket
+        target: `wss://${host}:${port}`,
         ws: true,
         secure: false,
+      },
+      '^/luban/operationApi': {
+        target: 'http://10.30.90.89:30011/delta-yunying',
+        ws: true,
+        changeOrigin: true,
+        pathRewrite: {
+          '^/luban/operationApi': ''
+        },
       },
     }
     // after: require('./mock/mock-server.js')
@@ -70,10 +82,10 @@ module.exports = {
             { source: './install.sh', destination: `./dist/bin` }
           ],
           // 先删除根目录下的zip包
-          delete: [`./wedatasphere-DataSphereStudio-${getVersion()}-dist.zip`],
+          delete: [`./Luban-DataSphereStudio-${getVersion()}-dist.zip`],
           // 将dist文件夹下的文件进行打包
           archive: [
-            { source: './dist', destination: `./wedatasphere-DataSphereStudio-${getVersion()}-dist.zip` },
+            { source: './dist', destination: `./Luban-DataSphereStudio-${getVersion()}-dist.zip` },
           ]
         },
       }])
@@ -92,6 +104,9 @@ module.exports = {
       new CopyWebpackPlugin([{
         from: 'node_modules/monaco-editor/dev/vs',
         to: 'static/vs',
+      },{
+        from: 'src/luban-doc',
+        to: 'luban-doc',
       }]),
       new MonacoWebpackPlugin({}),
     ]

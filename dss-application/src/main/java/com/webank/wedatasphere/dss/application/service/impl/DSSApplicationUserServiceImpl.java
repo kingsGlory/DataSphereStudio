@@ -39,7 +39,7 @@ public class DSSApplicationUserServiceImpl implements DSSApplicationUserService 
 
     @Override
     public void registerDssUser(DSSUser userDb) {
-        dssApplicationUserMapper.registerDssUser( userDb);
+        dssApplicationUserMapper.registerDssUser(userDb);
     }
 
     @Override

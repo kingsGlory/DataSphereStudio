@@ -17,10 +17,14 @@
           <h1 class="logo-title">
             {{$t('message.newConst.logoName')}} <span style="font-size:14px" v-if="moudleName">/ {{moudleName}}</span>
           </h1>
+          
           <img
             class="logo-img"
-            src="../../../assets/images/dssLogo6.png" :alt="$t('message.newConst.logoName')">
+            src="../../../assets/images/dssLogo6.svg" :alt="$t('message.newConst.logoName')">
+
+          <span>{{$t('message.header.appName')}}</span>
         </div>
+        <span>v1.0.1</span>
       </div>
       <workspaceMenu v-if="isShowWorkspaceMenu()" :projectList="workspaces" :currentId="parseInt($route.query.workspaceId, 10)" :changeWorkSpace="changeWorkspace"></workspaceMenu>
       <span
@@ -71,11 +75,17 @@
           class="user-icon"/>
         <userMenu
           v-show="isUserMenuShow"
-          @clear-session="clearSession"/>
+          @clear-session="clearSession"
+        />
       </div>
       <div
         class="icon-group">
-        <Icon
+        <!-- <span @click="gotoNewsNotice">
+          <Badge :count="unreadNewscount">
+            <Icon type="ios-notifications-outline"></Icon>
+          </Badge>
+        </span> -->
+        <!-- <Icon
           v-if="isSandbox"
           title="freedback"
           class="book"
@@ -90,7 +100,7 @@
           title="github"
           class="git"
           type="logo-github"
-          @click="linkTo('github')"></Icon>
+          @click="linkTo('github')"></Icon> -->
       </div>
     </div>
     <nav-menu
@@ -101,14 +111,15 @@
   </div>
 </template>
 <script>
+import { mapGetters } from 'vuex';
 import { isEmpty } from 'lodash';
 import api from '@/js/service/api';
 import storage from '@/js/helper/storage';
 import userMenu from './userMenu.vue';
 import workspaceMenu from './workspaceMenu';
-import clickoutside from '@js/helper/clickoutside';
-import navMenu from '@/js/component/navMenu/index.vue'
-import weMenu from '@/js/component/menu/index.vue'
+import clickoutside from '@/js/helper/clickoutside';
+import navMenu from '@/js/component/navMenu/index.vue';
+import weMenu from '@/js/component/menu/index.vue';
 export default {
   directives: {
     clickoutside,
@@ -119,6 +130,7 @@ export default {
     workspaceMenu,
   },
   data() {
+    this.REFRESH_TIME = 60000;
     return {
       isUserMenuShow: false,
       userName: '',
@@ -126,7 +138,7 @@ export default {
       currentProject: {},
       projectList: [],
       workspaces: [],
-      isSandbox: process.env.NODE_ENV === 'sandbox'
+      isSandbox: process.env.NODE_ENV === 'sandbox',
     };
   },
   created() {
@@ -134,6 +146,9 @@ export default {
   },
   mounted() {
     this.getCurrentProject();
+  },
+  beforeDestroy() {
+    clearInterval(this.timer);
   },
   computed: {
     moudleName() {
@@ -150,13 +165,22 @@ export default {
         }
       })
       return moudleName
-    }
+    },
+    ...mapGetters([
+      'unreadNewscount',
+      'newsNoticeIsTimer'
+    ])
   },
   watch: {
     '$route'(newValue) {
       this.projectID = newValue.query.projectID;
       this.getCurrentProject();
       this.getWorkSpace();
+    },
+    newsNoticeIsTimer(val) {
+      if (!val) {
+        clearInterval(this.timer);
+      }
     }
   },
   methods: {
@@ -171,8 +195,8 @@ export default {
           storage.set('userInfo', rst.userInfo);
           // window.$Wa.setParam('openId', rst.userInfo.basic.userName);
           this.$router.app.$emit('username', rst.userInfo.basic.username);
-
           this.$emit('set-init');
+          // this.createTimer();
         }
         this.getWorkSpace();
       });
@@ -277,7 +301,22 @@ export default {
     },
     changeWorkspace(data){
       this.$router.push({query: Object.assign({}, this.$route.query, {workspaceId: data.id})});
-    }
+    },
+    gotoNewsNotice() {
+      this.$router.replace({
+        path: '/redirect/newsNotice',
+        query: {
+          menuName: this.$t('message.navMune.newsNotice'),
+          status: 'istatus.resolved'
+        }
+      });
+    },
+    createTimer() {
+      this.$store.dispatch('newsNotice/getUnreadNewsCount');
+      this.timer = setInterval(() => {
+        this.$store.dispatch('newsNotice/getUnreadNewsCount');
+      }, this.REFRESH_TIME);
+    },
   },
 };
 </script>

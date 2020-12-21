@@ -2,7 +2,7 @@
   <div class="page-bgc">
     <div class="page-bgc-header">
       <div class="header-info">
-        <h1>{{$t('message.workspace.infoHeader')}}</h1>
+        <h1><span>{{$t('message.workspace.infoHeader')}}</span><span class="second-title">{{$t('message.project.infoBodyFirstSubtitle')}}</span></h1>
         <p>{{$t('message.project.infoBodyFirstRow')}}</p>
         <p>{{$t('message.project.infoBodySecondRow')}}</p>
       </div>
@@ -223,6 +223,22 @@ export default {
       });
     },
     createWorkspace() {
+      const userInfo = storage.get('userInfo');
+      if (userInfo.basic && userInfo.basic.status === 0) {
+        this.$Modal.confirm({
+          title: '开通资源',
+          content: '<p>尊敬的用户，使用本功能需要计算和存储资源，您可以去申请开通资源</p>',
+          okText: '去开通',
+          cancelText: '再看看案例和入门',
+          onOk: () => {
+            window.open(process.env.VUE_APP_CTYUN_SUBSCRIBE);
+          },
+          onCancel: () => {
+            console.log('Clicked cancel');
+          }
+        });
+        return;
+      }
       this.actionType = 'add';
       this.workspaceShow = true;
       this.currentWorkspaceData = {

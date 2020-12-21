@@ -20,14 +20,20 @@ package com.webank.wedatasphere.dss.application.restful;
 import com.webank.wedatasphere.dss.application.entity.Application;
 import com.webank.wedatasphere.dss.application.entity.DSSUser;
 import com.webank.wedatasphere.dss.application.entity.DSSUserVO;
+import com.webank.wedatasphere.dss.application.entity.LinkisUser;
 import com.webank.wedatasphere.dss.application.handler.ApplicationHandlerChain;
 import com.webank.wedatasphere.dss.application.service.ApplicationService;
 import com.webank.wedatasphere.dss.application.service.DSSApplicationUserService;
+import com.webank.wedatasphere.dss.application.service.LinkisUserService;
 import com.webank.wedatasphere.dss.application.util.ApplicationUtils;
 import com.webank.wedatasphere.linkis.server.Message;
 import com.webank.wedatasphere.linkis.server.security.SecurityFilter;
+import com.webank.wedatasphere.dss.application.conf.ApplicationConf;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import scala.util.parsing.json.JSON;
 
 import javax.servlet.http.HttpServletRequest;
 import javax.ws.rs.Consumes;
@@ -54,12 +60,17 @@ public class ApplicationRestfulApi {
     private DSSApplicationUserService dataworkisUserService;
     @Autowired
     private ApplicationHandlerChain applicationHandlerChain;
+    @Autowired
+    private LinkisUserService linkisUserService;
+    private static final Logger LOGGER = LoggerFactory.getLogger(ApplicationRestfulApi.class);
 
     @GET
     @Path("getBaseInfo")
     public Response getBaseInfo(@Context HttpServletRequest req){
         String username = SecurityFilter.getLoginUsername(req);
-        applicationHandlerChain.handle(username);
+        if(!ApplicationConf.SSO.getValue()){
+            applicationHandlerChain.handle(username);  //在授权模块去做
+        }
         List<Application> applicationList = applicationService.listApplications();
         for (Application application : applicationList) {
             String redirectUrl = application.getRedirectUrl();
@@ -69,6 +80,9 @@ public class ApplicationRestfulApi {
             }
         }
         DSSUser dssUser = dataworkisUserService.getUserByName(username);
+        LinkisUser linkisUser = linkisUserService.getUserByName(username);
+        dssUser.setCtyunUserId(linkisUser.getCtyunUserId());
+        dssUser.setStatus(linkisUser.getStatus());
         DSSUserVO dataworkisUserVO = new DSSUserVO();
         dataworkisUserVO.setBasic(dssUser);
         return Message.messageToResponse(Message.ok().data("applications",applicationList).data("userInfo",dataworkisUserVO));

@@ -32,9 +32,9 @@ import java.util.List;
  */
 public interface WorkspaceMapper {
 
-    List<DSSWorkspace> getWorkspaces();
+    List<DSSWorkspace> getWorkspaces(String userName);
 
-    List<DSSWorkspace> findByWorkspaceName(String name);
+    List<DSSWorkspace> findByWorkspaceName(@Param("name") String name, @Param("username") String username);
 
     void addWorkSpace(DSSWorkspace dssWorkspace);
 

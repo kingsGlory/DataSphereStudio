@@ -93,8 +93,8 @@
             @on-change="categoryChange">
             <Option value="node">{{$t('message.process.nodeParameter.node')}}</Option>
             <Option value="text">{{$t('message.process.nodeParameter.text')}}</Option>
-            <Option value="file">{{$t('message.process.nodeParameter.file')}}</Option>
-            <Option value="link">{{$t('message.process.nodeParameter.link')}}</Option>
+            <!-- <Option value="file">{{$t('message.process.nodeParameter.file')}}</Option>
+            <Option value="link">{{$t('message.process.nodeParameter.link')}}</Option> -->
           </Select>
           <Input
             v-model="currentNode.jobContent.jobParams[key]"
@@ -163,7 +163,7 @@
       <Button @click="save">{{$t('message.process.nodeParameter.BC')}}</Button>
     </div>
   </div>
-  </div></template>
+</template>
 <script>
 import resource from './resource.vue';
 import { NODETYPE } from '@/js/service/nodeType'
@@ -271,7 +271,8 @@ export default {
   computed: {
     newNodes() {
       return this.nodes.filter((item) => {
-        return item.key !== this.currentNode.key;
+        return ['linkis.appjoint.visualis.display', 'linkis.appjoint.visualis.dashboard'].indexOf(item.type)!==-1;
+        // return item.key !== this.currentNode.key;
       })
     },
     formRule() {
@@ -555,7 +556,7 @@ export default {
           { required: true, message: this.$t('message.process.nodeParameter.TXSJR'), trigger: 'blur' },
           {
             type: 'string',
-            pattern: /^[a-z][a-zA-Z0-9_.@]*$/,
+            // pattern: /^[a-z][a-zA-Z0-9_.@]*$/,
             message: this.$t('message.process.nodeParameter.BXYZMKTSZXHXZHX'),
             trigger: 'change',
           },
@@ -564,7 +565,7 @@ export default {
           { required: false, message: this.$t('message.process.nodeParameter.TXCSR'), trigger: 'blur' },
           {
             type: 'string',
-            pattern: /^[a-z][a-zA-Z0-9_.@]*$/,
+            // pattern: /^[a-z][a-zA-Z0-9_.@]*$/,
             message: this.$t('message.process.nodeParameter.BXYZMKTSZXHXZHX'),
             trigger: 'change',
           },
@@ -573,7 +574,7 @@ export default {
           { required: false, message: this.$t('message.process.nodeParameter.TXMMFSR'), trigger: 'blur' },
           {
             type: 'string',
-            pattern: /^[a-z][a-zA-Z0-9_.@]*$/,
+            // pattern: /^[a-z][a-zA-Z0-9_.@]*$/,
             message: this.$t('message.process.nodeParameter.BXYZMKTSZXHXZHX'),
             trigger: 'change',
           },

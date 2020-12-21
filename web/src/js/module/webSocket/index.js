@@ -40,9 +40,15 @@ const module = {
         }
         return;
       }
+      const socketPrefix = window.location.protocol === 'https:' ? 'wss:':'ws:';
+      console.log(window.location.host);
+      console.log(process.env.VUE_APP_PREFIX);
+      console.log(process.env.VUE_APP_MN_CONFIG_SOCKET);
       manager.socket = new Socket({
-        url: `ws://${process.env.VUE_APP_HOST || window.location.host}${process.env.VUE_APP_MN_CONFIG_SOCKET}`,
+        // wss://saas.ctyun.cn:8086/ws/api/entrance/connect
+        url: `${socketPrefix}${window.location.host}${process.env.VUE_APP_PREFIX}${process.env.VUE_APP_MN_CONFIG_SOCKET}`,
         errHandler: (e) => {
+
           // window.$Wa.log(JSON.stringify(e));
         },
       });

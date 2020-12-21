@@ -55,7 +55,7 @@
     vertical-align: top;
     font-size: 20px;
     color: $body-background;
-    margin-top: 2px;
+    
 
     .logo-title {
       text-indent: -10000px;
@@ -66,7 +66,10 @@
     }
 
     .logo-img {
+      margin-top: -5px;
+      margin-right: 20px;
       height: 36px;
+      vertical-align: middle;
     }
   }
 
@@ -116,6 +119,14 @@
         color: #fff;
       }
     }
+    /deep/ .ivu-badge-count {
+      height: 15px;
+      top: 6px;
+      right: 9px;
+      font-size: 10px;
+      line-height: 14px;
+      box-shadow: 0 0 0 1px #000;
+    }
   }
 
   .user {
@@ -159,6 +170,7 @@
       }
 
       .user-menu-item {
+        position: relative;
         list-style: none;
         padding-left: 20px;
         height: 40px;
@@ -177,6 +189,23 @@
           font-size: 16px;
           font-weight: bold;
         }
+        
+        // .blink-icon {
+        //   color: #ed4014;
+        //   animation:fade 1.5s infinite;
+        //   -webkit-animation:fade 1.5s infinite;
+        // }
+        // @keyframes fade {
+        //   from { opacity: 1.0; }
+        //   50% { opacity: 0.4; }
+        //   to { opacity: 1.0; }
+        // }
+        
+        // @-webkit-keyframes fade {
+        //   from { opacity: 1.0; }
+        //   50% { opacity: 0.4; }
+        //   to { opacity: 1.0; }
+        // }
       }
     }
 

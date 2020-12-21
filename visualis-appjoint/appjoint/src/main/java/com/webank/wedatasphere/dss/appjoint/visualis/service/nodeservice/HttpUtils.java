@@ -27,15 +27,22 @@ import org.apache.http.client.methods.CloseableHttpResponse;
 import org.apache.http.client.methods.HttpDelete;
 import org.apache.http.client.methods.HttpPost;
 import org.apache.http.client.methods.HttpPut;
+import org.apache.http.conn.ssl.NoopHostnameVerifier;
+import org.apache.http.conn.ssl.SSLConnectionSocketFactory;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.BasicCookieStore;
 import org.apache.http.impl.client.CloseableHttpClient;
+import org.apache.http.impl.client.HttpClientBuilder;
 import org.apache.http.impl.client.HttpClients;
 import org.apache.http.protocol.HTTP;
+import org.apache.http.ssl.SSLContexts;
+import org.apache.http.ssl.TrustStrategy;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
+import javax.net.ssl.SSLContext;
 import java.io.UnsupportedEncodingException;
+
+
 /**
  * Created by shanhuang on 2019/10/12.
  */
@@ -66,7 +73,7 @@ public class HttpUtils {
         CloseableHttpClient httpClient = null;
         CloseableHttpResponse response = null;
         try {
-            httpClient = HttpClients.custom().setDefaultCookieStore(cookieStore).build();
+            httpClient = getHttpClient(url, cookieStore);
             response = httpClient.execute(httpPost);
             HttpEntity ent = response.getEntity();
             resultString = IOUtils.toString(ent.getContent(), "utf-8");
@@ -95,7 +102,7 @@ public class HttpUtils {
         CloseableHttpClient httpClient = null;
         CloseableHttpResponse response = null;
         try {
-            httpClient = HttpClients.custom().setDefaultCookieStore(cookieStore).build();
+            httpClient = getHttpClient(url, cookieStore);
             response = httpClient.execute(httpdelete);
             HttpEntity ent = response.getEntity();
             resultString = IOUtils.toString(ent.getContent(), "utf-8");
@@ -135,7 +142,7 @@ public class HttpUtils {
         CloseableHttpClient httpClient = null;
         CloseableHttpResponse response = null;
         try {
-            httpClient = HttpClients.custom().setDefaultCookieStore(cookieStore).build();
+            httpClient = getHttpClient(url, cookieStore);
             response = httpClient.execute(httpPut);
             HttpEntity ent = response.getEntity();
             resultString = IOUtils.toString(ent.getContent(), "utf-8");
@@ -148,6 +155,24 @@ public class HttpUtils {
             IOUtils.closeQuietly(httpClient);
         }
         return resultString;
+    }
+
+    private static CloseableHttpClient getHttpClient(String url, CookieStore cookieStore){
+        TrustStrategy acceptingTrustStrategy = (x509Certificates, authType) -> true;
+        SSLContext sslContext = null;
+        try {
+            sslContext = SSLContexts.custom().loadTrustMaterial(null, acceptingTrustStrategy).build();
+            SSLConnectionSocketFactory connectionSocketFactory = new SSLConnectionSocketFactory(sslContext, NoopHostnameVerifier.INSTANCE);
+            HttpClientBuilder httpClientBuilder = HttpClients.custom().setDefaultCookieStore(cookieStore);
+            if(url.startsWith("https://")){
+                httpClientBuilder.setSSLSocketFactory(connectionSocketFactory);
+            }
+            CloseableHttpClient httpClient = httpClientBuilder.build();
+            return  httpClient;
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return HttpClients.createDefault();
     }
 
 }
