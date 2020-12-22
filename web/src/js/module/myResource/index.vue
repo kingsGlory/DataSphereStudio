@@ -84,9 +84,12 @@ export default {
     FeedBackDialog
   },
   data() {
-    this.expansionUrl = 'https://saas.ctyun.cn/eorder/luban/expansion'; // 扩容url
-    this.prolongUrl = 'https://saas.ctyun.cn/eorder/luban/prolong'; // 续订url
-    this.quitUrl = 'https://saas.ctyun.cn/eorder/luban/unsubscribe'; // 退订url
+    // this.expansionUrl = 'https://saas.ctyun.cn/eorder/luban/expansion'; // 扩容url
+    // this.prolongUrl = 'https://saas.ctyun.cn/eorder/luban/prolong'; // 续订url
+    // this.quitUrl = 'https://saas.ctyun.cn/eorder/luban/unsubscribe'; // 退订url
+    this.expansionUrl = 'https://bigdata.ctyun.cn:8180/eorder/luban/upgrade'; // 扩容url
+    this.prolongUrl = 'https://bigdata.ctyun.cn:8180/eorder/luban/prolong'; // 续订url
+    this.quitUrl = 'https://bigdata.ctyun.cn:8180/eorder/luban/unsubscribe'; // 退订url
     this.columns = [
       {
         title: '订单号',
