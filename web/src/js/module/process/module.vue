@@ -653,6 +653,7 @@ export default {
     this.$bus.$on('workflow:save', this.onSave);
   },
   beforeDestroy() {
+    this.$bus.$off('workflow:save', this.onSave);
     if (this.timer) {
       clearInterval(this.timer);
     }
