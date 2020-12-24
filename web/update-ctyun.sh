@@ -5,7 +5,7 @@ npm run build
 cd dist
 tar -zcvf dss-web.tar.gz ./dist
 
-sed -i "" "s/VUE_APP_CTYUN_SSO=\/\/www.ctyun.cn\/logout/#VUE_APP_CTYUN_SSO=\/\/www.ctyun.cn\/logout/g" .env
+sed -i "" "s/VUE_APP_CTYUN_SSO=\/\/www.ctyun.cn\/logout/#VUE_APP_CTYUN_SSO=\/\/www.ctyun.cn\/logout/g" ../.env
 
 PUTFILE=dss-web.tar.gz
 ftp -n<<!
