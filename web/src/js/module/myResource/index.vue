@@ -84,9 +84,6 @@ export default {
     FeedBackDialog
   },
   data() {
-    this.expansionUrl = 'https://saas.ctyun.cn/eorder/luban/expansion'; // 扩容url
-    this.prolongUrl = 'https://saas.ctyun.cn/eorder/luban/prolong'; // 续订url
-    this.quitUrl = 'https://saas.ctyun.cn/eorder/luban/unsubscribe'; // 退订url
     this.columns = [
       {
         title: '订单号',
@@ -169,7 +166,7 @@ export default {
       }
       await this.getUserInfo();
       if (this.userStatus === 10) { // status = 10为使用中可扩容
-        window.open(`${this.expansionUrl}?orderId=${this.nearWorkOrder.workOrderId}`);
+        window.open(`${process.env.VUE_APP_CTYUN_EXPANSION}?orderId=${this.nearWorkOrder.workOrderId}`);
       } else {
         this.$Message.warning('当前状态不支持扩容！');
       }
@@ -183,7 +180,7 @@ export default {
       await this.getUserInfo();
       // status = 9|10 为账户失效或者使用中可进行续订
       if (this.userStatus === 9 || this.userStatus === 10) {
-        window.open(`${this.prolongUrl}?orderId=${this.nearWorkOrder.workOrderId}`);
+        window.open(`${process.env.VUE_APP_CTYUN_PROLONG}?orderId=${this.nearWorkOrder.workOrderId}`);
       } else {
         this.$Message.warning('当前状态不支持续订！');
       }
@@ -200,7 +197,7 @@ export default {
           title: "提示",
           content: "<p>退订之后，您的资源和数据将在15天内被回收，确认退订请点击确定按钮。</p>",
           onOk: () => {
-            window.open(`${this.quitUrl}?orderId=${this.nearWorkOrder.workOrderId}`);
+            window.open(`${process.env.VUE_APP_CTYUN_UNSUBSCRIBE}?orderId=${this.nearWorkOrder.workOrderId}`);
           }
         });
       } else {

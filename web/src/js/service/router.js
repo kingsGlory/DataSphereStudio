@@ -212,7 +212,6 @@ const router = new VueRouter({
           name: 'MyResource',
           component: () => import('../module/myResource/index.vue'),
           meta: {
-            title: 'myResource',
             publicPage: true,
           },
         },
