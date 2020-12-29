@@ -80,11 +80,11 @@
       </div>
       <div
         class="icon-group">
-        <!-- <span @click="gotoNewsNotice">
+        <span v-if="isCtyun" @click="gotoNewsNotice">
           <Badge :count="unreadNewscount">
             <Icon type="ios-notifications-outline"></Icon>
           </Badge>
-        </span> -->
+        </span>
         <!-- <Icon
           v-if="isSandbox"
           title="freedback"
@@ -170,7 +170,10 @@ export default {
     ...mapGetters([
       'unreadNewscount',
       'newsNoticeIsTimer'
-    ])
+    ]),
+    isCtyun(){
+      return process.env.VUE_APP_CTYUN_SSO
+    }
   },
   watch: {
     '$route'(newValue) {
