@@ -23,48 +23,44 @@ export default {
   name: 'Menu',
   data() {
     return {
-      menuList: [
-        // {
-        //     id: 'user-management',
-        //     name: '用户管理',
-        //     icon: 'ios-person-outline',
-        // },
-        // {
-        //   id: 'FAQ',
-        //   name: this.$t('message.navMune.FAQ'),
-        //   icon: 'ios-help-circle-outline',
-        // },
+      
+      menuList: process.env.VUE_APP_CTYUN_SSO ? [
         {
           id: 'myResource',
           name: this.$t('message.navMune.myResource'),
           icon: 'ios-paper-outline',
         },
-        // {
-        //   id: 'workOrder',
-        //   name: this.$t('message.navMune.workOrder'),
-        //   icon: 'ios-paper-outline',
-        // },
-        // {
-        //   id: 'feedBack',
-        //   name: this.$t('message.navMune.feedBack'),
-        //   icon: 'ios-create-outline',
-        // },
+        {
+          id: 'feedBack',
+          name: this.$t('message.navMune.feedBack'),
+          icon: 'ios-create-outline',
+        },
         {
           id: 'clearCache',
           name: this.$t('message.navMune.clearCache'),
           icon: 'ios-trash-outline',
         },
-        // {
-        //   id: 'changeLang',
-        //   name: localStorage.getItem('locale') === 'zh-CN' ? 'English' : '简体中文',
-        //   icon: 'md-repeat',
-        // }, 
         {
           id: 'logout',
           name: this.$t('message.navMune.logOut'),
           icon: 'ios-log-out',
-        }],
+        }]:
+
+        [
+          {
+            id: 'clearCache',
+            name: this.$t('message.navMune.clearCache'),
+            icon: 'ios-trash-outline',
+          },
+          {
+            id: 'logout',
+            name: this.$t('message.navMune.logOut'),
+            icon: 'ios-log-out',
+          }]
+      ,
+
     };
+
   },
   methods: {
     handleClick(type) {
