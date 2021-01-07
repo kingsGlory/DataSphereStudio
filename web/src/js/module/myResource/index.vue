@@ -36,7 +36,7 @@
               <span>存储周期</span>
               <span>{{ row.resourceInfo.storage }}</span>
             </div>
-            <div class="table-column-item">
+            <div v-if="row.orderType !== 3" class="table-column-item">
               <span>订购周期</span>
               <span>{{ parseCycle(row.resourceInfo.cycleTime) }}</span>
             </div>
@@ -46,6 +46,9 @@
           <div class="table-column">
             <Badge :status="parseStatus(row.status)" :text="parseStatusDesc(row.status)"/>
           </div>
+        </template>
+        <template slot-scope="{ row }" slot="orderType">
+          <span>{{ parseOrderType(row.orderType) }}</span>
         </template>
         <template slot-scope="{ row }" slot="createTime">
           <span>{{ parseDate(row.createTime) }}</span>
@@ -75,6 +78,14 @@ const ORDER_STATUS = [
   { code: 2, desc: ' 订购开通失败', status: 'error' },
   { code: 3, desc: '订购已到期', status: 'warning' },
   { code: -1, desc: '异常订单', status: 'warning' },
+];
+const ORDER_TYPE = [
+  { code: 1, desc: '订购' },
+  { code: 2, desc: ' 续订' },
+  { code: 3, desc: '扩容' },
+  { code: 5, desc: '退订' },
+  { code: 6, desc: '到期' },
+  { code: 7, desc: '销毁' },
 ];
 
 export default {
@@ -106,6 +117,7 @@ export default {
       {
         title: '订单类型',
         key: 'orderType',
+        slot: 'orderType',
         align: 'left'
       },
       {
@@ -178,8 +190,8 @@ export default {
         return;
       }
       await this.getUserInfo();
-      // status = 9|10 为账户失效或者使用中可进行续订
-      if (this.userStatus === 9 || this.userStatus === 10) {
+      // status = 10|11 为使用中或者账户失效可进行续订
+      if (this.userStatus === 10 || this.userStatus === 11) {
         window.open(`${process.env.VUE_APP_CTYUN_PROLONG}?orderId=${this.nearWorkOrder.workOrderId}`);
       } else {
         this.$Message.warning('当前状态不支持续订！');
@@ -249,6 +261,10 @@ export default {
     parseStatusDesc(status) {
       const orderStatusDesc = find(ORDER_STATUS, ['code', status]).desc;
       return orderStatusDesc ? orderStatusDesc : '';
+    },
+    parseOrderType(orderType) {
+      const orderTypeDesc = find(ORDER_TYPE, ['code', orderType]).desc;
+      return orderTypeDesc ? orderTypeDesc : '';
     }
   },
 };
