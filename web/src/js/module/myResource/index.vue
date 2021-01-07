@@ -36,7 +36,7 @@
               <span>存储周期</span>
               <span>{{ row.resourceInfo.storage }}</span>
             </div>
-            <div class="table-column-item">
+            <div v-if="row.orderType !== '扩容类型'" class="table-column-item">
               <span>订购周期</span>
               <span>{{ parseCycle(row.resourceInfo.cycleTime) }}</span>
             </div>
