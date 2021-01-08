@@ -264,8 +264,9 @@ export default {
       const value = event.target.value;
       if(value){
         const arr = this.flatApps();
+        const lowerValue = value.toLowerCase();
         this.searchResult = arr.filter(item=>{
-          if(item.title.indexOf(value)!==-1 || item.labels.indexOf(value)!==-1){
+          if(item.title.toLowerCase().indexOf(lowerValue)!==-1 || item.labels.toLowerCase().indexOf(lowerValue)!==-1 || item.description.toLowerCase().indexOf(lowerValue)!==-1){
             return true;
           }
           return false;
