@@ -23,7 +23,7 @@
         type="error"
         size="large"
         long
-        @click="del">{{ [$t('message.deleteType.engine'), $t('message.deleteType.task'), $t('message.deleteType.engineAndTask')].indexOf(type) !== -1 ? $t('message.deleteDialog.action', {type}) : $t('message.newConst.delete') }}</Button>
+        @click="del">{{ [$t('message.deleteType.engine'), $t('message.deleteType.task'), $t('message.deleteType.engineAndTask')].indexOf(type) !== -1 ? $t('message.deleteDialog.action', {label}) : $t('message.newConst.delete') }}</Button>
     </div>
   </Modal>
 </template>
@@ -44,7 +44,7 @@ export default {
   },
   computed: {
     label() {
-      return [this.$t('message.deleteType.engine'), this.$t('message.deleteType.task'), this.$t('message.deleteType.engineAndTask')].indexOf(this.type) !== -1 ? this.$t('message.deleteDialog.overThe') : this.$t('message.newConst.delete');
+      return [this.$t('message.deleteType.engine'), this.$t('message.deleteType.task'), this.$t('message.deleteType.engineAndTask')].indexOf(this.type) !== -1 ? this.$t('message.deleteDialog.overThe') + this.type : this.$t('message.newConst.delete');
     },
   },
   watch: {
