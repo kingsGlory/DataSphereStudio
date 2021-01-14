@@ -17,7 +17,7 @@
 
 import VueRouter from 'vue-router';
 import Layout from '../view/layout.vue';
-// import api from '@/js/service/api';
+import api from '@/js/service/api';
 import storage from '@/js/helper/storage';
 import Cookies from 'js-cookie';
 import { Modal } from 'iview';
@@ -286,10 +286,29 @@ router.beforeEach((to, from, next) => {
     } else {
       if(userInfo.basic){
         console.log('userInfo.basic.status', userInfo.basic.status);
-        const arrInfo = ["", "开通中", "开通成功", "订购开通失败", "订购已到期，请尽快续费，资源近期回收！", "用户销户中","用户销户失败","销户成功"]
+        const meaasgeStatus = new Map([
+          [1, '开通中'],
+          [2, '开通失败'],
+          [7, '退订中'],
+          [8, '退订失败'],
+          [9, '退订成功'],
+          [11, '订购已到期，请尽快续订，资源近期回收！'],
+          [12, '过期续订中'],
+          [13, '过期续订失败'],
+          [14, '销户中'],
+          [15, '销户失败'],
+        ]);
+        const regExp = /^(1|2|7|8|9|12|13|14|15)$/;
+        if (regExp.test(userInfo.basic.status)) {
+          Modal.confirm({
+            title: '状态',
+            content: `<p>${meaasgeStatus.get(userInfo.basic.status)}</p>`,
+            okText: '请等待处理，或者联系客服 400-810-9889',
+          });
+          return;
+        }
         switch (userInfo.basic.status) {
           case 0:
-          case 7:
             Modal.confirm({
               title: '开通资源',
               content: '<p>尊敬的用户，使用本功能需要计算和存储资源，您可以去申请开通资源</p>',
@@ -303,23 +322,21 @@ router.beforeEach((to, from, next) => {
               }
             });
             break;
-          
-          case 1:
-          case 3:
-            Modal.confirm({
-              title: '开通状态',
-              content: `<p>${arrInfo[userInfo.basic.status]}</p>`,
-              okText: '请等待处理，或者联系客服 400-810-9889',
-            });
-            break;
 
-          case 4:
+          case 11:
             Modal.confirm({
-              title: '服务到期',
-              content: `<p>${arrInfo[userInfo.basic.status]}</p>`,
-              okText: '去续费',
+              title: '账户过期',
+              content: `<p>${meaasgeStatus.get(userInfo.basic.status)}</p>`,
+              okText: '去续订',
               onOk: () => {
-                window.open(process.env.VUE_APP_CTYUN_SUBSCRIBE);
+                const userId = userInfo.basic.ctyunUserId;
+                api.fetch('workOrder', { ctyunUserId: userId }, 'get').then((rst) => {
+                  const createTimeAry = rst.map((item) => {
+                    return item.createTime;
+                  })
+                  const nearWorkOrder = rst.find(item => Math.max(...createTimeAry) === item.createTime);
+                  window.open(`${process.env.VUE_APP_CTYUN_PROLONG}?orderId=${nearWorkOrder.workOrderId}`);
+                });
               },
             });
             break;
@@ -328,25 +345,51 @@ router.beforeEach((to, from, next) => {
             next();
             break;
         }
+        // const arrInfo = ["", "开通中", "开通成功", "订购开通失败", "订购已到期，请尽快续费，资源近期回收！", "用户销户中","用户销户失败","销户成功"]
+        // switch (userInfo.basic.status) {
+        //   case 0:
+        //   case 7:
+        //     Modal.confirm({
+        //       title: '开通资源',
+        //       content: '<p>尊敬的用户，使用本功能需要计算和存储资源，您可以去申请开通资源</p>',
+        //       okText: '去开通',
+        //       cancelText: '再看看案例和入门',
+        //       onOk: () => {
+        //         window.open(process.env.VUE_APP_CTYUN_SUBSCRIBE);
+        //       },
+        //       onCancel: () => {
+        //         console.log('Clicked cancel');
+        //       }
+        //     });
+        //     break;
+          
+        //   case 1:
+        //   case 3:
+        //     Modal.confirm({
+        //       title: '开通状态',
+        //       content: `<p>${arrInfo[userInfo.basic.status]}</p>`,
+        //       okText: '请等待处理，或者联系客服 400-810-9889',
+        //     });
+        //     break;
+
+        //   case 4:
+        //     Modal.confirm({
+        //       title: '服务到期',
+        //       content: `<p>${arrInfo[userInfo.basic.status]}</p>`,
+        //       okText: '去续费',
+        //       onOk: () => {
+        //         window.open(process.env.VUE_APP_CTYUN_SUBSCRIBE);
+        //       },
+        //     });
+        //     break;
+        
+        //   default:
+        //     next();
+        //     break;
+        // }
       }else{
         next()
       }
-      // if (userInfo.basic && userInfo.basic.status === 0) {
-      //   Modal.confirm({
-      //     title: '开通资源',
-      //     content: '<p>尊敬的用户，使用本功能需要计算和存储资源，您可以去申请开通资源</p>',
-      //     okText: '去开通',
-      //     cancelText: '再看看案例和入门',
-      //     onOk: () => {
-      //       window.open(process.env.VUE_APP_CTYUN_SUBSCRIBE);
-      //     },
-      //     onCancel: () => {
-      //       console.log('Clicked cancel');
-      //     }
-      //   });
-      // } else {
-      //   next()
-      // }
     }
 
   }else {
