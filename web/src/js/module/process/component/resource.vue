@@ -110,7 +110,7 @@ export default {
     // 发生改变时的回调
     beforeUpload(file) {
       const isInFlag = this.uploadFiles.find((item) => item.name === file.name);
-      const regLeaf = /^[-.\w\u4e00-\u9fa5]{1,200}\.[A-Za-z]+$/;
+      const regLeaf = /^[-.\w\u4e00-\u9fa5]{1,200}\.[A-Za-z0-9]+$/;
       const sizeResult = file.size >= 100 * 1024 * 1024;
       if (this.isRipetition) {
         if (this.nodeType === NODETYPE.SPARKPY) {
