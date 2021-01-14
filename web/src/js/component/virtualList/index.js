@@ -290,7 +290,9 @@ export default {
     // return the right zone info base on `start/index`.
     getZone: function(index) {
       let start; let end;
+      let slots = this.$slots.default;
       let delta = this.delta;
+      delta.total = slots.length;
 
       index = parseInt(index, 10);
       index = Math.max(0, index);
