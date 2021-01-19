@@ -222,23 +222,59 @@ export default {
         this.loading = false;
       });
     },
-    createWorkspace() {
-      const userInfo = storage.get('userInfo');
-      if (userInfo.basic && userInfo.basic.status === 0) {
-        this.$Modal.confirm({
-          title: '开通资源',
-          content: '<p>尊敬的用户，使用本功能需要计算和存储资源，您可以去申请开通资源</p>',
-          okText: '去开通',
-          cancelText: '再看看案例和入门',
-          onOk: () => {
-            window.open(process.env.VUE_APP_CTYUN_SUBSCRIBE);
-          },
-          onCancel: () => {
-            console.log('Clicked cancel');
-          }
-        });
-        return;
-      }
+    // 不允许操作状态提示弹框
+    errorStatusTips(userInfo) {
+      const meaasgeStatus = new Map([
+        [1, '开通中'],
+        [2, '开通失败'],
+        [7, '退订中'],
+        [8, '退订失败'],
+        [9, '退订成功'],
+        [12, '过期续订中'],
+        [13, '过期续订失败'],
+        [14, '销户中'],
+        [15, '销户失败'],
+      ]);
+      this.$Modal.confirm({
+        title: '状态',
+        content: `<p>${meaasgeStatus.get(userInfo.basic.status)}</p>`,
+        okText: '请等待处理，或者联系客服 400-810-9889',
+      });
+    },
+    // 未开通提示
+    subscribeOrder() {
+      this.$Modal.confirm({
+        title: '开通资源',
+        content: '<p>尊敬的用户，使用本功能需要计算和存储资源，您可以去申请开通资源</p>',
+        okText: '去开通',
+        cancelText: '再看看案例和入门',
+        onOk: () => {
+          window.open(process.env.VUE_APP_CTYUN_SUBSCRIBE);
+        },
+        onCancel: () => {
+          console.log('Clicked cancel');
+        }
+      });
+    },
+    // 账户过期提示
+    prolongOrder(userInfo) {
+      this.$Modal.confirm({
+        title: '账户过期',
+        content: '<p>订购已到期，请尽快续订，资源近期回收</p>',
+        okText: '去续订',
+        onOk: () => {
+          api.fetch('workOrder', { ctyunUserId: userInfo.basic.ctyunUserId }, 'get').then((rst) => {
+            const createTimeAry = rst.map((item) => {
+              return item.createTime;
+            })
+            const nearWorkOrder = rst.find(item => Math.max(...createTimeAry) === item.createTime);
+            window.open(`${process.env.VUE_APP_CTYUN_PROLONG}?orderId=${nearWorkOrder.workOrderId}`);
+          });
+        },
+      });
+    },
+    // 打开创建工作空间弹框
+    openCreateWorkspace() {
       this.actionType = 'add';
       this.workspaceShow = true;
       this.currentWorkspaceData = {
@@ -247,6 +283,17 @@ export default {
         label: '',
         department: '',
       }
+    },
+    createWorkspace() {
+      const userInfo = storage.get('userInfo');
+      const statusMap = new Map([
+        [/^(1|2|7|8|9|12|13|14|15)$/, 'errorStatusTips'],
+        [/^0$/, 'subscribeOrder'],
+        [/^11$/, 'prolongOrder'],
+        [/^(3|4|5|6|10)$/, 'openCreateWorkspace']
+      ]);
+      const action = [...statusMap].filter(([key,value])=>(key.test(`${userInfo.basic.status}`)));
+      action.forEach(([key,value])=>this[value](userInfo));
     },
     editor(workspace) {
       this.actionType = 'editor';
