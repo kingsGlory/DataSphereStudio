@@ -26,9 +26,9 @@
             </Row>
             <Row>
               <Col>
-              <div class="item-title">{{ $t('message.newsNotice.detail.detailForm.resolvedResult') }}</div>
+              <div class="item-title">{{ $t('message.newsNotice.detail.detailForm.resolveResult') }}</div>
               <div>
-                {{ item.resolvedResult? item.resolvedResult : $t('message.newsNotice.detail.emptyText') }}
+                {{ item.resolveResult? item.resolveResult : $t('message.newsNotice.detail.emptyText') }}
               </div>
               </Col>
             </Row>
