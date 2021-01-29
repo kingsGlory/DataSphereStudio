@@ -134,8 +134,10 @@ public final class AzkabanProjectService extends AppJointUrlImpl implements Sche
         CloseableHttpClient httpClient = null;
         try {
             String finalUrl = projectUrl + "?" + EntityUtils.toString(new UrlEncodedFormEntity(params));
+            logger.info("finalUrl:"+ finalUrl);
             HttpGet httpGet = new HttpGet(finalUrl);
             httpGet.addHeader(HTTP.CONTENT_ENCODING, "UTF-8");
+
             httpClient = this.getHttpClient(projectUrl, cookieStore);
             response = httpClient.execute(httpGet, context);
             Header[] allHeaders = context.getRequest().getAllHeaders();
@@ -163,7 +165,7 @@ public final class AzkabanProjectService extends AppJointUrlImpl implements Sche
         if(url.startsWith("https://")){
             httpClientBuilder.setSSLSocketFactory(connectionSocketFactory);
         }
-        CloseableHttpClient httpClient = httpClientBuilder.build();
+        CloseableHttpClient httpClient = httpClientBuilder.disableRedirectHandling().build();
         return  httpClient;
     }
 
