@@ -644,11 +644,12 @@ export default {
     this.getBaseInfo();
     this.setShapes();
     if (!this.myReadonly) {
+      let time = 1000 * 60 * 5 + (Math.random() * 1000 * 60);
       this.timer = setInterval(() => {
         if (this.jsonChange && !this.nodebaseinfoShow) { // paramsIsChange参数是否在编辑操作
           this.autoSave('自动保存', true);
         }
-      }, 1000 * 60 * 5);
+      },  time);
     }
     
   },
