@@ -24,7 +24,7 @@
 
           <span>{{$t('message.header.appName')}}</span>
         </div>
-        <span>v1.0.1</span>
+        <span>v1.0.3</span>
       </div>
       <workspaceMenu v-if="isShowWorkspaceMenu()" :projectList="workspaces" :currentId="parseInt($route.query.workspaceId, 10)" :changeWorkSpace="changeWorkspace"></workspaceMenu>
       <span
@@ -201,6 +201,7 @@ export default {
           this.$router.app.$emit('username', rst.userInfo.basic.username);
           this.$emit('set-init');
           // this.createTimer();
+          
         }
         this.getWorkSpace();
       });
