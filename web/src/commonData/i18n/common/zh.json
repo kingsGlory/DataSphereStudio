@@ -1766,9 +1766,9 @@
             },
             "statusType": {
                 "processing": "处理中",
-                "processed": "已处理",
-                "resloved": "已解决",
-                "closed": "已撤回"
+                "resolved": "已处理",
+                "closed": "已解决",
+                "fallback": "已撤回"
             },
             "detail": {
                 "title": "消息详情",
@@ -1781,7 +1781,7 @@
                     "createdTime": "创建时间",
                     "finishTime": "完成时间",
                     "woDesc": "问题详情",
-                    "resolvedResult": "反馈结果",
+                    "resolveResult": "反馈结果",
                     "attach": "附件"
                 }
             },

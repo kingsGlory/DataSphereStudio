@@ -108,9 +108,9 @@ export default {
   data() {
     this.statusOptions = [
       { label: this.$t('message.newsNotice.statusType.processing'), value: 'istatus.processing', selected: false },
-      { label: this.$t('message.newsNotice.statusType.processed'), value: 'istatus.resolved', selected: false },
-      { label: this.$t('message.newsNotice.statusType.resloved'), value: 'istatus.closed_isDelete0', selected: false },
-      { label: this.$t('message.newsNotice.statusType.closed'), value: 'istatus.closed_isDelete1', selected: false },
+      { label: this.$t('message.newsNotice.statusType.resolved'), value: 'istatus.resolved', selected: false },
+      { label: this.$t('message.newsNotice.statusType.closed'), value: 'istatus.closed', selected: false },
+      { label: this.$t('message.newsNotice.statusType.fallback'), value: 'istatus.fallback', selected: false },
     ];
     this.dateOptions = {
       disabledDate (date) {
@@ -217,7 +217,7 @@ export default {
       defaultParams: {
         sortBy: 'updatedTime',
         sortOrder: 'desc',
-        isDeleted: 1
+        status: ['istatus.processing', 'istatus.resolved', 'istatus.closed', 'istatus.fallback']
       },
       issueId: '',
       feedBackShow: false,
@@ -229,7 +229,6 @@ export default {
       noticeList: [],
       addBtnShow: false,
       menuTitle: '',
-      // tableHeight: 0,
     };
   },
   computed: {
@@ -263,24 +262,7 @@ export default {
       }
     },
     handleSearch() {
-      const params = cloneDeep(this.defaultParams);
-      if (!isEmpty(this.keyword)) {
-        params.subject = this.keyword;
-      }
-      if (this.status.length > 0 && this.status.length !== this.statusOptions.length) {
-        params.status = [];
-        params.isDeleted = 0;
-        const otherStatus = this.status.filter((item) => item !== 'istatus.closed_isDelete0' && item !== 'istatus.closed_isDelete1');
-        params.status = otherStatus;
-        const closeStatus = this.status.filter((item) => item === 'istatus.closed_isDelete0' || item === 'istatus.closed_isDelete1');
-        if (!isEmpty(closeStatus) && closeStatus.length > 0) {
-          params.status.push('istatus.closed');
-          if (closeStatus.some((ele) => ele === 'istatus.closed_isDelete1')) params.isDeleted = 1;
-        }
-      }
-      params.pageNum = this.page.current;
-      params.pageSize = this.page.size;
-      params.username = this.userName;
+      const params = this.getParams();
       this.loading = true;
       api.fetch(`${this.url}userFeedBacks/search`, params, 'post').then((data) => {
         this.noticeList = data.list;
@@ -289,6 +271,19 @@ export default {
       }).catch(() => {
         this.loading = false;
       });
+    },
+    getParams() {
+      const params = cloneDeep(this.defaultParams);
+      if (!isEmpty(this.keyword)) {
+        params.subject = this.keyword;
+      }
+      if (this.status.length > 0) {
+        params.status = this.status;
+      }
+      params.pageNum = this.page.current;
+      params.pageSize = this.page.size;
+      params.username = this.userName;
+      return params;
     },
     handleInputChange(val) {
       this.keyword = val;

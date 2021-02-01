@@ -200,7 +200,7 @@ export default {
           // window.$Wa.setParam('openId', rst.userInfo.basic.userName);
           this.$router.app.$emit('username', rst.userInfo.basic.username);
           this.$emit('set-init');
-          // this.createTimer();
+          this.createTimer();
         }
         this.getWorkSpace();
       });
