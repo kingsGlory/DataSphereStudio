@@ -92,7 +92,7 @@ module.exports = {
     }
   },
   configureWebpack: {
-    devtool: process.env.NODE_ENV === 'development' ? 'source-map' : undefined,
+    devtool: process.env.NODE_ENV === 'development' ? 'eval-source-map' : undefined,
     resolve: {
       alias: {
         'vue$': 'vue/dist/vue.esm.js',
