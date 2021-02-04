@@ -6,6 +6,8 @@
         "serve": "vue-cli-service serve",
         "build": "vue-cli-service build",
         "build-sandbox": "vue-cli-service build --mode sandbox",
+        "build:test": "vue-cli-service build --mode development",
+        "build:private": "vue-cli-service build --mode private",
         "release": "node release.js",
         "lint": "vue-cli-service lint --no-fix",
         "fix": "eslint --ext .js,.vue src --fix",
