@@ -344,10 +344,13 @@ export default {
       if (!node.resources) {
         node.resources = [];
       }
+      let isSaved = false;
       if (node.resources.length > 0 && node.resources[0].fileName === resource.fileName) { // 已报保存过的直接替换，没有保存的首项追加
         node.resources[0] = resource;
+        isSaved = true;
       } else {
         node.resources.unshift(resource);
+        isSaved = false;
       }
       this.$refs.process.map((item) => {
         item.json.nodes.forEach((item) => {
@@ -357,6 +360,9 @@ export default {
             item.params = node.params;
           }
         });
+        if(!isSaved){
+          item.autoSave("自动保存", true);
+        }
       });
     },
     convertSettingParamsVariable(params) {

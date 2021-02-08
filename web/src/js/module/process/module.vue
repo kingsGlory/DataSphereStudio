@@ -644,15 +644,17 @@ export default {
     this.getBaseInfo();
     this.setShapes();
     if (!this.myReadonly) {
+      let time = 1000 * 60 * 5 + (Math.random() * 1000 * 60);
       this.timer = setInterval(() => {
         if (this.jsonChange && !this.nodebaseinfoShow) { // paramsIsChange参数是否在编辑操作
           this.autoSave('自动保存', true);
         }
-      }, 1000 * 60 * 5);
+      },  time);
     }
-    this.$bus.$on('workflow:save', this.onSave);
+    
   },
   beforeDestroy() {
+    
     if (this.timer) {
       clearInterval(this.timer);
     }
@@ -1261,25 +1263,6 @@ export default {
         return;
       }
       this.saveModal = true;
-    },
-    onSave(resourceId){
-      // window.console.log('onSave',resourceId);
-      let nodeNoInit = true;
-      let json = JSON.parse(JSON.stringify(this.json));
-      if(json && json.nodes){
-        json.nodes.forEach((node) => {
-
-          if (!node.resources) {
-            node.resources = [];
-          }
-          if(node.resources.indexOf(resourceId) !== -1){
-            nodeNoInit = false;
-          }
-        });
-      }
-      if(nodeNoInit){
-        this.autoSave("自动保存", true);
-      }
     },
     /**
          * 保存工作流
