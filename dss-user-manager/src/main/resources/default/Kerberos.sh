@@ -107,15 +107,20 @@ else
         KDC_USER=$5
         PASSWORD=$6
         REALM=$7
-        enable=$8
-        if [ $enable = 0 ]; then
-          echo "kerberos is disabled"
-        else
-          echo `date '+%Y-%m-%d %H:%M:%S'`" in genenate_key_tab username:"$user >>/tmp/deltaKerberos.log
-          gen_keytab_user $user
-        fi
-
-
+        KERBEROS_ENABLE=$8
+        echo $user
+        echo $CENTER_KEYTAB_PATH
+        echo $SSH_PORT
+        echo $KDCSERVER_$KDC_USER
+        echo $REALM
+        echo $KERBEROS_ENABLE
+        if [ $KERBEROS_ENABLE = "0" ]; then
+           echo "kerberos is disabled"
+        else 
+         echo "kerberos is enable"
+         echo `date '+%Y-%m-%d %H:%M:%S'`" in genenate_key_tab username:"$user >>/tmp/deltaKerberos.log
+         gen_keytab_user $user
+       fi
     else
         user=$1
         host=$2
@@ -125,10 +130,13 @@ else
         KDC_USER=$6
         PASSWORD=$7
         REALM=$8
-        enable=$9
-        if [ $enable = 0 ]; then
+        KERBEROS_ENABLE=$9
+        echo $REALM
+        echo $KERBEROS_ENABLE
+        if [ $KERBEROS_ENABLE = "0" ]; then
            echo "kerberos is disabled"
         else
+          echo "kerberos1 is enable"
           echo `date '+%Y-%m-%d %H:%M:%S'`" in genenate_key_tab username:"$user" hostname:"$host >>/tmp/deltaKerberos.log
           gen_keytab $user $host
         fi

@@ -41,9 +41,9 @@ public class KerberosCommand extends AbsCommand {
         String bashCommand = getResource(shellFile);
         String scriptCmd ;
         if(null != hostName){
-            scriptCmd = String.format("%s %s %s %s %s %s %s %s", username,hostName,keytabPath,sshPort,kdcNode,kdcUser,password,realm,enableSwich);
+            scriptCmd = String.format("%s %s %s %s %s %s %s %s %s", username,hostName,keytabPath,sshPort,kdcNode,kdcUser,password,realm,enableSwich);
         }else {
-            scriptCmd = String.format("%s %s %s %s %s %s %s", username,keytabPath,sshPort,kdcNode,kdcUser,password,realm,enableSwich);
+            scriptCmd = String.format("%s %s %s %s %s %s %s %s", username,keytabPath,sshPort,kdcNode,kdcUser,password,realm,enableSwich);
         }
         String[] args = scriptCmd.split(" ");
         return this.runShell(bashCommand, args);
