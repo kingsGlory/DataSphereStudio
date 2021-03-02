@@ -36,25 +36,4 @@ public class DSSUserManagerConfig {
     public static final String KEBBEROS_ENABLE_SWITCH = CommonVars.apply("wds.linkis.kerberos.enable.switch", "").getValue().trim();
     public static final String DSS_DEPLOY_PATH = CommonVars.apply("wds.dss.deploy.path", "").getValue().trim();
 
-//
-//    wds.linkis.metastore.hive.hdfs.base.path=
-//    wds.linkis.metastore.script.path= default/Metastore.sh
-//    wds.linkis.metastore.db.tail=default                               #--hdfs上数据库文件的尾缀
-//    wds.linkis.kerberos.realm=                                 #--kerberos域
-//    wds.linkis.kerberos.admin=                                 #--获得hive metastore服务admin角色授权的用户（如hdfs,非常重要，否则无法完成授权）
-//
-//            #--Kerberos配置
-//    wds.linkis.kerberos.script.path=default/Kerberos.sh            #--执行脚本的位置
-//    wds.linkis.kerberos.keytab.path=/etc/security/keytabs         #--keytab在本节点上的存放位置
-//    wds.linkis.kerberos.ssh.port=22                               #--ssh操作使用的端口
-//    wds.linkis.kerberos.kdc.node=                                  #--kerberos服务kdc节点
-//    wds.linkis.kerberos.kdc.user.name=                                  #--在进行ssh kdc操作是，对应kdc节点上的用户，应当知道该用户的密码，并且该用户应存在于kdc节点sudoers列表内
-//    wds.linkis.kerberos.kdc.user.password=
-//
-//            parms.getString("shellFile"), userName,hostName,
-//            parms.getString("keytabPath"),parms.getString("sshPort"),
-//            parms.getString("kdcNode"),parms.getString("kdcUser"),parms.getString("password"),parms.getString("realm"));
-
-
-
 }
