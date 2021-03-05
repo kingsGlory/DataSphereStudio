@@ -77,6 +77,7 @@ public abstract class AbsCommand implements Command {
         if (status != 0){
             logger.error("shell error: "+status);
         }
+        br.close();
         return Command.SUCCESS;
     }
 
