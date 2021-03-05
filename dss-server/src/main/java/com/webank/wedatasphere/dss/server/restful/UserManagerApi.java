@@ -6,7 +6,7 @@ import com.webank.wedatasphere.dss.application.service.ApplicationService;
 import com.webank.wedatasphere.linkis.server.Message;
 import com.webank.wedatasphpere.dss.user.dto.request.AuthorizationBody;
 import com.webank.wedatasphpere.dss.user.service.AbsCommand;
-import com.webank.wedatasphpere.dss.user.service.impl.LubanAuthorizationClient;
+import com.webank.wedatasphpere.dss.user.service.impl.UserAuthorizationClient;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -17,12 +17,6 @@ import javax.ws.rs.*;
 import javax.ws.rs.core.Context;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.concurrent.Callable;
-import java.util.concurrent.ExecutorService;
-import java.util.concurrent.Executors;
-import java.util.concurrent.Future;
 
 /**
  * @program: luban-authorization
@@ -37,7 +31,7 @@ import java.util.concurrent.Future;
 @Consumes(MediaType.APPLICATION_JSON)
 public class UserManagerApi {
 
-    private LubanAuthorizationClient client = new LubanAuthorizationClient();
+    private UserAuthorizationClient client = new UserAuthorizationClient();
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
     @Autowired
