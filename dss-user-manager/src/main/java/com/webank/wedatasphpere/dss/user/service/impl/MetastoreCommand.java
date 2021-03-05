@@ -32,7 +32,7 @@ public class MetastoreCommand extends AbsCommand {
                 String path = DSSUserManagerConfig.METASTORE_HDFS_PATH + "/"+dbName+".db";
                 bashCommand = getResource(DSSUserManagerConfig.METASTORE_SCRIPT_PAHT);
                 args = new String[]{ userName,dbName,path,
-                        DSSUserManagerConfig.KERBEROS_REALM,DSSUserManagerConfig.KERBEROS_ADMIN,DSSUserManagerConfig.KERBEROS_KEYTAB_PATH,DSSUserManagerConfig.KEBBEROS_ENABLE_SWITCH};
+                        DSSUserManagerConfig.KERBEROS_REALM,DSSUserManagerConfig.KERBEROS_ADMIN,DSSUserManagerConfig.KERBEROS_KEYTAB_PATH,DSSUserManagerConfig.KERBEROS_ENABLE_SWITCH};
         }
         return this.runShell(bashCommand, args);
     }
