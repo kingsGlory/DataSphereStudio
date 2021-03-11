@@ -209,4 +209,8 @@ public final class CtyunAzkabanSecurityService extends AppJointUrlImpl implement
         return System.currentTimeMillis() - session.getLastAccessTime() > EXPIRE_TIME;
     }
 
+    @Override
+    public void reloadToken() {
+
+    }
 }
