@@ -27,6 +27,14 @@ public class DSSUser {
     private Boolean isFirstLogin;
     private Integer status;
     private String ctyunUserId;
+    private boolean isSuperUser = false;
+
+    public boolean getIsSuperUser() {
+        return isSuperUser;
+    }
+    public void setIsSuperUser(boolean isSuperUser) {
+        this.isSuperUser = isSuperUser;
+    }
 
     public Long getId() {
         return id;

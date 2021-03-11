@@ -1,6 +1,7 @@
 *.iml
 .idea
 .DS_Store
+*.class
 
 assembly/target
 
@@ -24,3 +25,13 @@ visualis-appjoint/appjoint/target/
 qualitis-appjoint/appjoint/target/
 logs
 web/.history
+
+dss-user-manager/target/
+logs
+### Example user template template
+### Example user template
+
+# IntelliJ project files
+
+out
+gen

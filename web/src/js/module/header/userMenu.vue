@@ -21,9 +21,11 @@ import api from '@/js/service/api';
 import Cookies from 'js-cookie';
 export default {
   name: 'Menu',
+  props: {
+    isSuperUser: Boolean
+  },
   data() {
     return {
-      
       menuList: process.env.VUE_APP_CTYUN_SSO ? [
         {
           id: 'myResource',
@@ -62,6 +64,23 @@ export default {
     };
 
   },
+  watch: { 
+    isSuperUser: function(newVal){
+      if(newVal){
+        if(this.menuList[0].id !== 'user-management'){
+          this.menuList.unshift({
+            id: 'user-management',
+            name: this.$t('message.navMune.userManager'),
+            icon: 'ios-person-outline',
+          },)
+        }
+      }else {
+        if(this.menuList[0].id === 'user-management') {
+          this.menuList.shift();
+        }
+      }
+    }
+  },
   methods: {
     handleClick(type) {
       switch (type) {
@@ -92,7 +111,8 @@ export default {
       }
     },
     openUserManagement() {
-      this.$Message.info(this.$t('message.userMenu.comingSoon'));
+      // this.$Message.info(this.$t('message.userMenu.comingSoon'));
+      this.$router.push('/userManager')
     },
     openFAQ() {
       const newTab = window.open('about:blank');
