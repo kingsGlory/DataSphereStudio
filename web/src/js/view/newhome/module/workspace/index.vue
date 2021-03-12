@@ -286,14 +286,18 @@ export default {
     },
     createWorkspace() {
       const userInfo = storage.get('userInfo');
-      const statusMap = new Map([
-        [/^(1|2|7|8|9|12|13|14|15)$/, 'errorStatusTips'],
-        [/^0$/, 'subscribeOrder'],
-        [/^11$/, 'prolongOrder'],
-        [/^(3|4|5|6|10)$/, 'openCreateWorkspace']
-      ]);
-      const action = [...statusMap].filter(([key,value])=>(key.test(`${userInfo.basic.status}`)));
-      action.forEach(([key,value])=>this[value](userInfo));
+      if(process.env.VUE_APP_CTYUN_SSO){
+        const statusMap = new Map([
+          [/^(1|2|7|8|9|12|13|14|15)$/, 'errorStatusTips'],
+          [/^0$/, 'subscribeOrder'],
+          [/^11$/, 'prolongOrder'],
+          [/^(3|4|5|6|10)$/, 'openCreateWorkspace']
+        ]);
+        const action = [...statusMap].filter(([key,value])=>(key.test(`${userInfo.basic.status}`)));
+        action.forEach(([key,value])=>this[value](userInfo));
+      }else {
+        this.openCreateWorkspace(userInfo);
+      }
     },
     editor(workspace) {
       this.actionType = 'editor';
