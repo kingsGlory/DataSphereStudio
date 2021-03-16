@@ -21,16 +21,19 @@ import java.util.List;
 public class LdapCommand extends AbsCommand {
 
     @Override
-    public String authorization(AuthorizationBody body) {
+    public String authorization(AuthorizationBody body) throws Exception {
 
         String userName = body.getUsername();
-        String password = body.getPassword();
-        String ldapScriptServer = DSSUserManagerConfig.BDP_SERVER_LDAP_SCRIPT_SERVER;
-        String ldapScriptRoot = DSSUserManagerConfig.BDP_SERVER_LDAP_SCRIPT_ROOT;
-        String ldapScript = DSSUserManagerConfig.BDP_SERVER_LDAP_SCRIPT;
+        String UserPassword = body.getPassword();
+        String dssDeployPath = DSSUserManagerConfig.DSS_DEPLOY_PATH;
 
         String bashCommand = this.getClass().getClassLoader().getResource("default/CreateLdapAccount.sh").getPath();
-        String[] args = {ldapScriptServer, ldapScriptRoot,ldapScript,userName,password};
+        String[] args = {
+                userName,
+                UserPassword,
+                dssDeployPath
+        };
+
         return this.runShell(bashCommand, args);
     }
 
