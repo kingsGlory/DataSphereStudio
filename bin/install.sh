@@ -285,10 +285,7 @@ if [[ '2' = "$MYSQL_INSTALL_MODE" ]];then
       GATEWAY_INSTALL_IP_2=$GATEWAY_INSTALL_IP
     fi
     #echo $GATEWAY_INSTALL_IP_2
-    sed -i "s/GATEWAY_INSTALL_IP_2/$GATEWAY_INSTALL_IP_2/g" ${workDir}/db/dss_dml.sql
-    sed -i "s/GATEWAY_PORT/$GATEWAY_PORT/g" ${workDir}/db/dss_dml.sql
-    mysql -h$MYSQL_HOST -P$MYSQL_PORT -u$MYSQL_USER -p$MYSQL_PASSWORD -D$MYSQL_DB --default-character-set=utf8 -e "source ${workDir}/db/dss_dml.sql"
-    isSuccess "source dss_dml.sql"
+
 
     if [[ '2' = "$INSTALL_MODE" ]] || [[ '3' = "$INSTALL_MODE" ]];then
         echo "visualis support,visualis database will be initialized !"
@@ -334,6 +331,11 @@ if [[ '2' = "$MYSQL_INSTALL_MODE" ]];then
        mysql -h$MYSQL_HOST -P$MYSQL_PORT -u$MYSQL_USER -p$MYSQL_PASSWORD -D$MYSQL_DB --default-character-set=utf8 -e "source ${workDir}/db/qualitis.sql"
 	   isSuccess "source qualitis.sql"
     fi
+
+    sed -i "s/GATEWAY_INSTALL_IP_2/$GATEWAY_INSTALL_IP_2/g" ${workDir}/db/dss_dml.sql
+    sed -i "s/GATEWAY_PORT/$GATEWAY_PORT/g" ${workDir}/db/dss_dml.sql
+    mysql -h$MYSQL_HOST -P$MYSQL_PORT -u$MYSQL_USER -p$MYSQL_PASSWORD -D$MYSQL_DB --default-character-set=utf8 -e "source ${workDir}/db/dss_dml.sql"
+    isSuccess "source dss_dml.sql"
 fi
 
 ##Deal special symbol '#'
