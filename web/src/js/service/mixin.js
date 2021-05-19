@@ -17,6 +17,7 @@
 
 import storage from '@/js/helper/storage';
 import api from '@/js/service/api';
+import util from '../util/index';
 
 export default {
   data: function() {
@@ -175,7 +176,16 @@ export default {
         this.$Message.warning(this.$t('message.constants.warning.comingSoon'));
       } else {
         if (!info.ifIframe) {
-          this.$router.push({path: url, query});
+          if(url.startsWith('http')){
+            let newUrl = new URLSearchParams();
+            Object.keys(query).forEach(key=>{
+              newUrl.set(key, query[key]);
+            })
+            window.open(util.replaceHolder(url), '_blank')
+          }else {
+            this.$router.push({path: url, query});
+          }
+          
         } else {
           this.$router.push({name: 'commonIframe', query: {
             ...query,
