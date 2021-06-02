@@ -118,7 +118,7 @@
           <span>调度历史</span>
         </div> -->
         <div class="devider"></div>
-        <div class="button" @click.stop="linkToDispatch">
+        <div v-if="schedulingStatus.published" class="button" @click.stop="linkToDispatch">
           <SvgIcon class="icon" icon-class="ds-center" color="#666"/>
           <span>{{$t('message.workflow.process.gotoScheduleCenter')}}</span>
         </div>
@@ -400,7 +400,7 @@ import util from '@/common/util/index.js';
 import mixin from '@/common/service/mixin';
 import module from './component/modal.vue';
 import moment from 'moment';
-import { getPublishStatus } from '@/apps/workflows/service/api.js';
+import { getPublishStatus, getSchedulingStatus } from '@/apps/workflows/service/api.js';
 
 export default {
   components: {
@@ -544,7 +544,11 @@ export default {
       changeNum: 0,
       consoleParams: [],
       appId: null,
-      newOrchestratorVersionId: this.orchestratorVersionId
+      newOrchestratorVersionId: this.orchestratorVersionId,
+      schedulingStatus: {
+        published: false,
+        releaseStatus: ''
+      }
     };
   },
   computed: {
@@ -639,6 +643,7 @@ export default {
     //   const taskId = this.getTaskId();
     //   this.checkPublishStatus(taskId, 5000);
     // }
+    this.refreshSchedulingStatus();
   },
   watch: {
     jsonChange(val) {
@@ -686,6 +691,13 @@ export default {
     }
   },
   methods: {
+    refreshSchedulingStatus(){
+      getSchedulingStatus(storage.get('currentWorkspace').id, this.orchestratorId).then(data=>{
+        this.schedulingStatus = data;
+      }).catch(() => {
+
+      })
+    },
     // 保存node参数修改
     saveNodeParameter() {
       this.$refs.nodeParameter.save();
@@ -2139,12 +2151,17 @@ export default {
         })
       })
     },
+    
     workflowPublishIsShow(event) {
       // 已经在发布不能再点击
       if(this.publishChangeCount < 1) {
         event.preventDefault();
         event.stopPropagation();
-        this.$Message.warning(this.$t('message.workflow.warning.unChange'))
+        this.$Message.warning(this.$t('message.workflow.warning.unChange'));
+        return;
+      }
+      if(this.schedulingStatus.published && this.schedulingStatus.releaseStatus === 'ONLINE'){
+        this.$Message.warning(this.$t('message.workflow.warning.publishOnlineTips'));
         return;
       }
       if(this.isFlowPubulish) return this.$Message.warning(this.$t('message.workflow.warning.api'))
@@ -2206,6 +2223,7 @@ export default {
         timeoutValue += 2000;
         getPublishStatus(+id, this.getCurrentDsslabels()).then((res) => {
           if (timeoutValue <= (10 * 60 * 1000)) {
+            this.refreshSchedulingStatus();
             if (res.status === 'init' || res.status === 'running') {
               clearTimeout(timer);
               this.checkResult(id, timeoutValue, type);
