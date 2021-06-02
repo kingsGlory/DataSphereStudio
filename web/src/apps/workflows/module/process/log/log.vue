@@ -13,16 +13,16 @@
             <span>{{$t('message.scheduler.viewLog')}}</span>
             <div class="full-screen">
               <a href="javascript:" @click="_downloadLog" data-container="body" data-toggle="tooltip" :title="$t('message.scheduler.downloadLog')">
-                <Icon custom="iconfont icon-xiazai" size="20"></Icon>
+                <Icon custom="iconfont icon-download" size="20"></Icon>
               </a>
               <a href="javascript:" class="refresh-log" :class="loading ? 'active' :''" @click="!loading && _refreshLog()" data-container="body" data-toggle="tooltip" :title="$t('message.scheduler.refreshLog')">
-                <Icon custom="iconfont icon-shuaxin" size="20"></Icon>
+                <Icon custom="iconfont icon-refresh" size="20"></Icon>
               </a>
               <a href="javascript:" @click="_screenOpen" v-show="!isScreen" data-container="body" data-toggle="tooltip" :title="$t('message.scheduler.fullScreen')">
-                <Icon custom="iconfont icon-quanping" size="20"></Icon>
+                <Icon custom="iconfont icon-full-screen" size="20"></Icon>
               </a>
               <a href="javascript:" @click="_screenClose" v-show="isScreen" data-container="body" data-toggle="tooltip" :title="$t('message.scheduler.cancelScreen')">
-                <Icon custom="iconfont icon-quxiaoquanping" size="20"></Icon>
+                <Icon custom="iconfont icon-cancel-full-screen" size="20"></Icon>
               </a>
             </div>
           </div>

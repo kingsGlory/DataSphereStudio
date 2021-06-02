@@ -844,61 +844,61 @@ export default {
         SUBMITTED_SUCCESS: {
           id: 0,
           desc: this.$t('message.scheduler.tasksState.SUBMITTED_SUCCESS'),
-          icon: 'icon-tijiaochenggong',
+          icon: 'icon-submitted-success',
           color: '#A9A9A9'
         },
         'RUNNING_EXECUTION': {
           id: 1,
           desc: this.$t('message.scheduler.tasksState.RUNNING_EXECUTION'),
-          icon: 'icon-zhengzaizhihang',
+          icon: 'icon-running-execution',
           color: '#0097e0'
         },
         'RUNNING_EXEUTION': {
           id: 1,
           desc: this.$t('message.scheduler.tasksState.RUNNING_EXECUTION'),
-          icon: 'icon-zhengzaizhihang',
+          icon: 'icon-running-execution',
           color: '#0097e0'
         },
         READY_PAUSE: {
           id: 2,
           desc: this.$t('message.scheduler.tasksState.READY_PAUSE'),
-          icon: 'icon-zhunbeizanting',
+          icon: 'icon-ready-pause',
           color: '#07b1a3'
         },
         PAUSE: {
           id: 3,
           desc: this.$t('message.scheduler.tasksState.PAUSE'),
-          icon: 'icon-zanting',
+          icon: 'icon-pause',
           color: '#057c72'
         },
         READY_STOP: {
           id: 4,
           desc: this.$t('message.scheduler.tasksState.READY_STOP'),
-          icon: 'icon-zhunbeitingzhi',
+          icon: 'icon-ready-stop',
           color: '#FE0402'
         },
         STOP: {
           id: 5,
           desc: this.$t('message.scheduler.tasksState.STOP'),
-          icon: 'icon-tingzhi',
+          icon: 'icon-stop',
           color: '#e90101'
         },
         FAILURE: {
           id: 6,
           desc: this.$t('message.scheduler.tasksState.FAILURE'),
-          icon: 'icon-shibai',
+          icon: 'icon-failure',
           color: '#000000'
         },
         SUCCESS: {
           id: 7,
           desc: this.$t('message.scheduler.tasksState.SUCCESS'),
-          icon: 'icon-chenggong',
+          icon: 'icon-success',
           color: '#33cc00'
         },
         NEED_FAULT_TOLERANCE: {
           id: 8,
           desc: this.$t('message.scheduler.tasksState.NEED_FAULT_TOLERANCE'),
-          icon: 'icon-xuyaorongcuo',
+          icon: 'icon-need-fault-tolerance',
           color: '#FF8C00'
         },
         KILL: {
@@ -910,25 +910,25 @@ export default {
         WAITTING_THREAD: {
           id: 10,
           desc: this.$t('message.scheduler.tasksState.WAITTING_THREAD'),
-          icon: 'icon-dengdaixiancheng',
+          icon: 'icon-waitting-thread',
           color: '#912eed'
         },
         WAITTING_DEPEND: {
           id: 11,
           desc: this.$t('message.scheduler.tasksState.WAITTING_DEPEND'),
-          icon: 'icon-dengdaiyilai',
+          icon: 'icon-watting-depend',
           color: '#5101be'
         },
         DELAY_EXECUTION: {
           id: 12,
           desc: this.$t('message.scheduler.tasksState.DELAY_EXECUTION'),
-          icon: 'icon-zhengzaizhihang',
+          icon: 'icon-delay-execution',
           color: '#5102ce'
         },
         FORCED_SUCCESS: {
           id: 13,
           desc: this.$t('message.scheduler.tasksState.FORCED_SUCCESS'),
-          icon: 'icon-tijiaochenggong',
+          icon: 'icon-forced-success',
           color: '#5102ce'
         }
       },
