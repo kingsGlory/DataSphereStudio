@@ -251,7 +251,8 @@ export default {
                   disabled: params.row.isOnline
                 },
                 style: {
-                  marginRight: '5px'
+                  marginRight: '5px',
+                  display: 'none'
                 },
                 attrs: {
                   title: this.$t('message.scheduler.copy')
