@@ -110,6 +110,7 @@ import gantt from './gantt'
 import { GetWorkspaceData } from '@/common/service/apiCommonMethod.js'
 import { tasksState, publishStatus, runningType } from './config'
 
+
 export default {
   name: 'dispatch',
   components: {
@@ -596,6 +597,7 @@ export default {
         },
         {
           title: this.$t('message.scheduler.header.UpdateTime'),
+          width: 100,
           key: 'updateTime'
         },
         {
