@@ -1222,7 +1222,7 @@ export default {
   }
   .scheduler-list{
     float: left;
-    padding: 23px 26px;
+    padding: 10px 26px;
     .scheduler-list-title {
       padding-bottom: 17px;
       font-size: 16px;

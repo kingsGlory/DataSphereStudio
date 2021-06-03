@@ -123,6 +123,7 @@ export default {
   }
 }
 .gantt-model {
+  background: url('img/dag_bg.png');
   height: calc(80vh - 63px);
   width: calc(100vw - 320px);
   .gantt-state {
