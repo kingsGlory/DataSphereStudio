@@ -128,8 +128,8 @@ export default {
   width: calc(100vw - 320px);
   .gantt-state {
     background: #fff;
-    height: 48px;
-    line-height: 48px;
+    height: 37px;
+    line-height: 18px;
     padding-left: 20px;
   }
   .gantt {

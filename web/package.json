@@ -59,7 +59,6 @@
         "vue-router": "3.4.8",
         "vuedraggable": "2.24.3",
         "vuescroll": "4.16.1",
-        "webpack": "^4.41.3",
         "worker-loader": "2.0.0"
     },
     "devDependencies": {
@@ -85,6 +84,7 @@
         "svg-sprite-loader": "5.0.0",
         "vue-cli-plugin-mockjs": "0.1.3",
         "vue-template-compiler": "2.6.12",
+        "webpack": "^4.41.3",
         "webpack-virtual-modules": "0.3.2"
     }
 }
