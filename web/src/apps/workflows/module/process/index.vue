@@ -87,7 +87,6 @@
             v-if="item.type === 'DS'"
             v-show="index===active"
             :key="item.title"
-            style="width:100%; height:100%"
           >
             <DS :query="query"></DS>
           </div>
