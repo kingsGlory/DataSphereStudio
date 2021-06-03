@@ -124,7 +124,7 @@ export default {
 }
 .gantt-model {
   background: url('img/dag_bg.png');
-  height: calc(80vh - 63px);
+  height: calc(80vh - 74px);
   width: calc(100vw - 320px);
   .gantt-state {
     background: #fff;
@@ -133,7 +133,7 @@ export default {
     padding-left: 20px;
   }
   .gantt {
-    height: 65vh;
+    height: 64vh;
     overflow-y: scroll;
   }
   rect {
