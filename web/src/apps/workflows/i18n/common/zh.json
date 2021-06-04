@@ -523,6 +523,7 @@
             "importFail": "导入失败"
         },
         "scheduler": {
+            "dashboard": "运维大屏",
             "processDefinition": "工作流定义",
             "processInstance": "工作流实例",
             "run": "运行",

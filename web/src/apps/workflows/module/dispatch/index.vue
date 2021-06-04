@@ -4,13 +4,26 @@
       <div class="scheduler-wrapper">
         <div class="scheduler-menu">
           <ul>
+            <li :class="activeDS == 4? 'active' : ''" @click="activeList(4)">{{$t('message.scheduler.dashboard')}}</li>
             <li :class="activeDS == 1 || activeDS == 3? 'active' : ''" @click="activeList(1)">{{$t('message.scheduler.processDefinition')}}</li>
             <li :class="activeDS == 2? 'active' : ''" @click="activeList(2)">{{$t('message.scheduler.processInstance')}}</li>
           </ul>
         </div>
+        <div class="scheduler-list" v-if="activeDS == 4">
+          <template>
+            <div class="scheduler-list-title">
+              <span>{{$t('message.scheduler.dashboard')}}</span>
+            </div>
+          </template>
+        </div>
         <div class="scheduler-list" v-if="activeDS == 1">
           <template>
-            <div class="scheduler-list-title">{{$t('message.scheduler.processDefinition')}}</div>
+            <div class="scheduler-list-title">
+              <span>{{$t('message.scheduler.processDefinition')}}</span>
+              <Input v-model="searchVal" style="width: auto;float: right">
+                <Icon type="ios-search" slot="suffix" @click="activeList(1)" style="cursor: pointer;"/>
+              </Input>
+            </div>
             <Table class="scheduler-table" :columns="columns" :data="list"></Table>
             <Page
               size="small"
@@ -29,7 +42,12 @@
         </div>
         <div class="scheduler-list" v-if="activeDS == 2">
           <template v-if="!showGantt">
-            <div class="scheduler-list-title">{{$t('message.scheduler.processInstance')}}</div>
+            <div class="scheduler-list-title">
+              <span>{{$t('message.scheduler.processInstance')}}</span>
+              <Input v-model="searchVal" style="width: auto;float: right">
+                <Icon type="ios-search" slot="suffix" @click="activeList(2)" style="cursor: pointer;"/>
+              </Input>
+            </div>
             <Table class="scheduler-table" :columns="columns2" :data="list2"></Table>
             <Page
               size="small"
@@ -124,6 +142,21 @@ export default {
     query: {
       type: Object,
       default: () => {}
+    },
+    tabName: {
+      type: String,
+      default: ''
+    },
+    activeTab: {
+      default: 1
+    }
+  },
+  watch: {
+    tabName() {
+      this.searchVal = this.tabName
+    },
+    activeTab() {
+      this.activeDS = this.activeTab
     }
   },
   computed: {
@@ -133,8 +166,9 @@ export default {
   },
   data() {
     return {
+      searchVal: this.tabName, //搜索名字
       workspaceName: '',
-      activeDS: 1,
+      activeDS: this.activeTab,
       showRunTaskModal: false,
       showTimingTaskModal: false,
       list: [],
@@ -759,7 +793,7 @@ export default {
         api.fetch(`dolphinscheduler/projects/${this.projectName}/process/list-paging`, {
           pageSize: this.pagination.size,
           pageNo: page,
-          searchVal: this.query.name
+          searchVal: this.searchVal
         }, 'get').then((res) => {
           res.totalList.forEach(item => {
             item.releaseStateDesc = item.releaseState? this.publishStatus[item.releaseState] : ''
@@ -779,7 +813,7 @@ export default {
         api.fetch(`dolphinscheduler/projects/${this.projectName}/instance/list-paging`, {
           pageSize: this.pagination2.size,
           pageNo: page,
-          searchVal: this.query.name
+          searchVal: this.searchVal
         }, 'get').then((res) => {
           res.totalList.forEach(item => {
             item.scheduleTime = formatDate(item.scheduleTime)
@@ -802,7 +836,6 @@ export default {
         api.fetch(`dolphinscheduler/projects/${this.projectName}/schedule/list-paging`, {
           pageSize: this.pagination3.size,
           pageNo: page,
-          searchVal: this.query.name,
           processDefinitionId: this.schedulerId
         }, 'get').then((res) => {
           res.totalList.forEach(item => {
@@ -1003,6 +1036,8 @@ export default {
         this.getInstanceListData()
       } else if (this.activeDS === 3) {
         this.getSchedulerData()
+      } else if (this.activeDS === 4) {
+        console.log('运维大屏')
       }
     },
     openDag(index) {

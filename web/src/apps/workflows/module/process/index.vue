@@ -88,7 +88,7 @@
             v-show="index===active"
             :key="item.title"
           >
-            <DS :query="query"></DS>
+            <DS :query="query" :tab-name="query.name"></DS>
           </div>
         </template>
       </div>
