@@ -31,7 +31,7 @@ import { GetWorkspaceData } from '@/common/service/apiCommonMethod.js'
 import Gantt from './source/gantt'
 import mSpin from '../components/spin/spin'
 import mNoData from '../components/noData/noData'
-import { tasksState } from '../config'
+import { tasksStateList } from '../config'
 import mListConstruction from '../components/listConstruction/listConstruction'
 
 export default {
@@ -39,7 +39,7 @@ export default {
   data () {
     return {
       // Node state
-      tasksState,
+      tasksState: tasksStateList,
       // loading
       isLoading: true,
       // gantt data

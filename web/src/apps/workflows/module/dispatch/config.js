@@ -94,6 +94,93 @@ const tasksState = {
   }
 }
 
+const tasksStateList = [
+  {
+    id: 0,
+    desc: i18n.$t('message.scheduler.tasksState.SUBMITTED_SUCCESS'),
+    icon: 'icon-submitted-success',
+    color: '#A9A9A9'
+  },
+  {
+    id: 1,
+    desc: i18n.$t('message.scheduler.tasksState.RUNNING_EXECUTION'),
+    icon: 'icon-running-execution',
+    color: '#0097e0'
+  },
+  {
+    id: 2,
+    desc: i18n.$t('message.scheduler.tasksState.READY_PAUSE'),
+    icon: 'icon-ready-pause',
+    color: '#07b1a3'
+  },
+  {
+    id: 3,
+    desc: i18n.$t('message.scheduler.tasksState.PAUSE'),
+    icon: 'icon-pause',
+    color: '#057c72'
+  },
+  {
+    id: 4,
+    desc: i18n.$t('message.scheduler.tasksState.READY_STOP'),
+    icon: 'icon-ready-stop',
+    color: '#FE0402'
+  },
+  {
+    id: 5,
+    desc: i18n.$t('message.scheduler.tasksState.STOP'),
+    icon: 'icon-stop',
+    color: '#e90101'
+  },
+  {
+    id: 6,
+    desc: i18n.$t('message.scheduler.tasksState.FAILURE'),
+    icon: 'icon-failure',
+    color: '#000000'
+  },
+  {
+    id: 7,
+    desc: i18n.$t('message.scheduler.tasksState.SUCCESS'),
+    icon: 'icon-success',
+    color: '#33cc00'
+  },
+  {
+    id: 8,
+    desc: i18n.$t('message.scheduler.tasksState.NEED_FAULT_TOLERANCE'),
+    icon: 'icon-need-fault-tolerance',
+    color: '#FF8C00'
+  },
+  {
+    id: 9,
+    desc: i18n.$t('message.scheduler.tasksState.KILL'),
+    icon: 'icon-kill',
+    color: '#a70202'
+  },
+  {
+    id: 10,
+    desc: i18n.$t('message.scheduler.tasksState.WAITTING_THREAD'),
+    icon: 'icon-waitting-thread',
+    color: '#912eed'
+  },
+  {
+    id: 11,
+    desc: i18n.$t('message.scheduler.tasksState.WAITTING_DEPEND'),
+    icon: 'icon-watting-depend',
+    color: '#5101be'
+  },
+  {
+    id: 12,
+    desc: i18n.$t('message.scheduler.tasksState.DELAY_EXECUTION'),
+    icon: 'icon-delay-execution',
+    color: '#5102ce'
+  },
+  {
+    id: 13,
+    desc: i18n.$t('message.scheduler.tasksState.FORCED_SUCCESS'),
+    icon: 'icon-forced-success',
+    color: '#5102ce'
+  }
+]
+
 const publishStatus = {
   'NOT_RELEASE': i18n.$t('message.scheduler.Unpublished'),
   'ONLINE': i18n.$t('message.scheduler.online'),
@@ -222,6 +309,7 @@ const tasksType = {
 
 export {
   tasksState,
+  tasksStateList,
   publishStatus,
   runningType,
   tasksType
