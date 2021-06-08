@@ -16,6 +16,7 @@ import api from '@/common/service/api'
 import { bar } from './chartConfig'
 import Chart from '../../components/ana-charts'
 import mNoData from '../../components/noData/noData'
+import util from "@/common/util"
 export default {
   name: 'define-user-count',
   data () {
@@ -56,13 +57,15 @@ export default {
       handler () {
         this.isSpin = true
         this.parameter.projectId = this.projectId
-        api.fetch(`dolphinscheduler/projects/analysis/define-user-count`, this.parameter, 'get').then(res => {
-          this.msg = res.count > 0
-          this.processStateList = []
-          this.defineUserList = []
-          this._handleDefineUser(res)
-        }).catch(() => {
-          this.isSpin = false
+        util.checkToken(() => {
+          api.fetch(`dolphinscheduler/projects/analysis/define-user-count`, this.parameter, 'get').then(res => {
+            this.msg = res.count > 0
+            this.processStateList = []
+            this.defineUserList = []
+            this._handleDefineUser(res)
+          }).catch(() => {
+            this.isSpin = false
+          })
         })
       }
     }

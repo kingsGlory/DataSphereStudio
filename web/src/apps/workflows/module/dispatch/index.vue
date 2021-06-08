@@ -779,7 +779,9 @@ export default {
   mounted() {
     GetWorkspaceData(this.$route.query.workspaceId).then(data=>{
       this.workspaceName = data.workspace.name
-      this.getListData()
+      if (this.activeDS === 1) {
+        this.getListData()
+      }
     })
     util.Hub.$on('dagLog', data => {
       this.getTaskInstanceList(data, (id) => {

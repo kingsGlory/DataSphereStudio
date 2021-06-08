@@ -39,7 +39,7 @@ import { pie } from './chartConfig'
 import Chart from '../../components/ana-charts'
 import mNoData from '../../components/noData/noData'
 import { tasksStateList } from '../../config'
-
+import util from "@/common/util"
 export default {
   name: 'task-status-count',
   data () {
@@ -90,12 +90,14 @@ export default {
       immediate: true,
       handler (o) {
         this.isSpin = true
-        api.fetch(`dolphinscheduler/projects/analysis/task-state-count`, o, 'get').then(res => {
-          this.taskStatusList = []
-          this._handleTaskStatus(res)
-          this.isSpin = false
-        }).catch(() => {
-          this.isSpin = false
+        util.checkToken(() => {
+          api.fetch(`dolphinscheduler/projects/analysis/task-state-count`, o, 'get').then(res => {
+            this.taskStatusList = []
+            this._handleTaskStatus(res)
+            this.isSpin = false
+          }).catch(() => {
+            this.isSpin = false
+          })
         })
       }
     }

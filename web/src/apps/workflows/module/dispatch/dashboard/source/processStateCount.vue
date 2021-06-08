@@ -39,6 +39,7 @@ import Chart from '../../components/ana-charts'
 import mNoData from '../../components/noData/noData'
 import { tasksStateList } from '../../config'
 import echarts from 'echarts'
+import util from "@/common/util"
 export default {
   name: 'process-state-count',
   data () {
@@ -84,12 +85,14 @@ export default {
       immediate: true,
       handler (o) {
         this.isSpin = true
-        api.fetch(`dolphinscheduler/projects/analysis/process-state-count`, o, 'get').then(res => {
-          this.processStateList = []
-          this._handleProcessState(res)
-          this.isSpin = false
-        }).catch(() => {
-          this.isSpin = false
+        util.checkToken(() => {
+          api.fetch(`dolphinscheduler/projects/analysis/process-state-count`, o, 'get').then(res => {
+            this.processStateList = []
+            this._handleProcessState(res)
+            this.isSpin = false
+          }).catch(() => {
+            this.isSpin = false
+          })
         })
       }
     },

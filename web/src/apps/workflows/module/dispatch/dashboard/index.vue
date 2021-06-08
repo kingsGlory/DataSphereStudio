@@ -44,9 +44,10 @@
 </template>
 <script>
 import api from '@/common/service/api'
+import util from "@/common/util"
 import dayjs from 'dayjs'
-import mDefineUserCount from './_source/defineUserCount'
-import mProcessStateCount from './_source/processStateCount'
+import mDefineUserCount from './source/defineUserCount'
+import mProcessStateCount from './source/processStateCount'
 import mListConstruction from '../components/listConstruction/listConstruction'
 import { GetWorkspaceData } from '@/common/service/apiCommonMethod.js'
 
@@ -96,10 +97,12 @@ export default {
     this.dataTime[1] = dayjs().format('YYYY-MM-DD HH:mm:ss')
     GetWorkspaceData(this.$route.query.workspaceId).then(data=>{
       this.workspaceName = data.workspace.name
-      this.getProjectId((id) => {
-        this.searchParams.projectId = id
-        this.searchParams.startDate = this.dataTime[0]
-        this.searchParams.endDate = this.dataTime[1]
+      util.checkToken(() => {
+        this.getProjectId((id) => {
+          this.searchParams.projectId = id
+          this.searchParams.startDate = this.dataTime[0]
+          this.searchParams.endDate = this.dataTime[1]
+        })
       })
     })
   },
