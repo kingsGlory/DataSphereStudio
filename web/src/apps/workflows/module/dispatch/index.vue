@@ -1284,8 +1284,16 @@ export default {
 </style>
 <style lang="scss" scoped>
 .scheduler-center{
-  .scheduler-wrapper {
+  position: relative;
+  overflow: hidden;
+  .scheduler-wrapper{
     padding-top: 0;
+    .scheduler-menu{
+      min-height: 80vh;
+    }
+    .scheduler-list{
+      min-height: 80vh;
+    }
   }
 }
 .scheduler-wrapper{
