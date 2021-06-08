@@ -50,7 +50,7 @@
         </template>
       </template>
       <template v-if="modeOfKey === DEVPROCESS.OPERATIONCENTER">
-        <DS :activeTab="4"></DS>
+        <DS :activeTab="4" class="scheduler-center"></DS>
       </template>
       <template v-else>
       <!-- 其他应用流程 -->

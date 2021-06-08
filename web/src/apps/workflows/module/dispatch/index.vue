@@ -1283,6 +1283,11 @@ export default {
   }
 </style>
 <style lang="scss" scoped>
+.scheduler-center{
+  .scheduler-wrapper {
+    padding-top: 0;
+  }
+}
 .scheduler-wrapper{
   background-color: white;
   min-height: 80vh;
@@ -1294,9 +1299,6 @@ export default {
     width: 250px;
     font-size: 14px;
     min-height: calc(80vh - 16px);
-    border-right: 1px solid #DEE4EC;
-    padding-bottom: 2000px;
-    margin-bottom: -2000px;
     li {
     padding: 0 40px;
     cursor: pointer;
@@ -1313,7 +1315,9 @@ export default {
   }
   .scheduler-list{
     float: left;
-    padding: 10px 26px;
+    padding: 10px 25px;
+    border-left: 1px solid #DEE4EC;
+    min-height: calc(80vh - 16px);
     .scheduler-list-title {
       padding-bottom: 17px;
       font-size: 16px;
